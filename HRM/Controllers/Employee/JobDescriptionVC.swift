@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import ARSLineProgress
 
 class JobDescriptionVC: UIViewController {
-
+///
     @IBOutlet var companyDescriptionView: UIView!
     @IBOutlet weak var jobDescriptionView: UIView!
     @IBOutlet weak var mainview: UIView!
@@ -21,9 +22,20 @@ class JobDescriptionVC: UIViewController {
     @IBOutlet weak var jobName: UILabel!
     @IBOutlet weak var jobLocation: UILabel!
     
+    @IBOutlet weak var planOfAction: UILabel!
+    @IBOutlet weak var companyAddress: UILabel!
+    @IBOutlet weak var emailCompany: UILabel!
+    @IBOutlet weak var companyContact: UILabel!
+    @IBOutlet weak var companyLocation: UILabel!
+    
+///
+    var jobId = ""
+    var jobDetails: JobAndCompanyDetailModel?
+///
     override func viewDidLoad() {
         super.viewDidLoad()
         mainview.addSubview(jobDescriptionView)
+        getApiData()
     }
     
 
@@ -42,5 +54,33 @@ class JobDescriptionVC: UIViewController {
     }
     @IBAction func onCompanyDescription(_ sender: Any) {
         mainview.addSubview(companyDescription)
+    }
+}
+
+extension JobDescriptionVC{
+    func getApiData(){
+        ARSLineProgress.show()
+        ApiManager.shared.jobDetailById(id: jobId) { [self] jobDetail, isSuccess in
+            ARSLineProgress.hide()
+            if isSuccess{
+                jobDetails = jobDetail
+                setData()
+            }else{
+                alert(message: ApiManager.shared.message)
+            }
+        }
+    }
+    func setData(){
+        experienceRequired.text = jobDetails?.planOfAction
+        jobName.text = jobDetails?.title
+        jobLocation.text = "\(jobDetails?.location ?? ""), \(jobDetails?.country ?? "")"
+        jobType.text = jobDetails?.jobType
+        salary.text = "$ \(jobDetails?.priceTo ?? 100)"
+        skillsRequired.text = jobDetails?.scopeOfWork
+        companyLocation.text = jobDetails?.location
+        companyAddress.text = jobDetails?.company.address
+        companyContact.text = jobDetails?.company.phoneNumber
+        emailCompany.text = jobDetails?.company.email
+        planOfAction.text = jobDetails?.planOfAction
     }
 }

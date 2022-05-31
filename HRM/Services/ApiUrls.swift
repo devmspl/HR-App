@@ -16,4 +16,8 @@ public struct ApiUrls {
     public static var forgetPassword              = BaseUrl + "users/forgotPassword"
     public static var otp                         = BaseUrl + "users/otpVerifyAndChangePassword"
     public static var resetPassword               = BaseUrl + "users/newPassword"
+//MARK: -  jobApi
+    public static var popularJobs                 = BaseUrl + "jobs/getpopularjobs"
+    public static var recentJobs                  = BaseUrl + "jobs/recentPosts"
+    public static var jobDetails                  = BaseUrl + "jobs/getJobs/"
 }

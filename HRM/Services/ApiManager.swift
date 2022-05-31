@@ -7,6 +7,7 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
 
 class ApiManager: UIViewController {
 
@@ -87,7 +88,6 @@ class ApiManager: UIViewController {
                 }
             }
         }else{
-            
             completion(NSDictionary(),false)
         }
         }
@@ -208,4 +208,109 @@ class ApiManager: UIViewController {
             completion(NSDictionary(),false)
         }
         }
+    
+ //MARK: - popular job
+    func popularJobs(completion: @escaping ([JobDetailModel],Bool)-> ()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            print(ApiUrls.popularJobs)
+            AF.request(ApiUrls.popularJobs,method: .get).response{
+                response in
+                switch(response.result){
+                case .success(let data): do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let success = response.response?.statusCode
+                    let respond = json as! NSDictionary
+                    if success == 200{
+                        print(respond)
+                        let data = respond.object(forKey: "message") as! [[String: Any]]
+                        var jobArray = [JobDetailModel]()
+                        for i in data{
+                            jobArray.append(JobDetailModel.init(JSON(i)))
+                        }
+                        completion(jobArray,true)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion([],false)
+                }
+                case .failure(let error):do{
+                    print(error.localizedDescription)
+                    completion([],false)
+                }
+                }
+            
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion([],false)
+        }
+    }
+//MARK: - recentJobs
+    func recentJobs(completion: @escaping ([JobDetailModel],Bool)-> ()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            print(ApiUrls.recentJobs)
+            AF.request(ApiUrls.recentJobs,method: .get).response{
+                response in
+                switch(response.result){
+                case .success(let data): do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let success = response.response?.statusCode
+                    let respond = json as! NSDictionary
+                    if success == 200{
+                        print(respond)
+                        let data = respond.object(forKey: "message") as! [[String: Any]]
+                        var jobArray = [JobDetailModel]()
+                        for i in data{
+                            jobArray.append(JobDetailModel.init(JSON(i)))
+                        }
+                        completion(jobArray,true)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion([],false)
+                }
+                case .failure(let error):do{
+                    print(error.localizedDescription)
+                    completion([],false)
+                }
+                }
+            
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion([],false)
+        }
+    }
+//MARK: -  getJobdetail by id Api
+    func jobDetailById(id: String,completion: @escaping (JobAndCompanyDetailModel?,Bool)-> ()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            print(ApiUrls.jobDetails+id)
+            AF.request(ApiUrls.jobDetails+id,method: .get).response{
+                response in
+                switch(response.result){
+                case .success(let data): do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let success = response.response?.statusCode
+                    let respond = json as! NSDictionary
+                    if success == 200{
+                        print(respond)
+                        let data = respond.object(forKey: "data") as! [String:Any]
+                        
+                        completion(JobAndCompanyDetailModel.init(JSON(data)),true)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion(nil,false)
+                }
+                case .failure(let error):do{
+                    print(error.localizedDescription)
+                    completion(nil,false)
+                }
+                }
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion(nil,false)
+        }
+    }
 }

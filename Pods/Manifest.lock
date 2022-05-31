@@ -2,28 +2,40 @@ PODS:
   - Alamofire (5.6.1)
   - AlamofireImage (4.2.0):
     - Alamofire (~> 5.4)
+  - ARSLineProgress (3.1.1)
   - DropDown (2.3.13)
+  - GeometricLoaders (1.1.1)
   - IQKeyboardManagerSwift (6.5.10)
+  - SwiftyJSON (5.0.1)
 
 DEPENDENCIES:
   - Alamofire
   - AlamofireImage
+  - ARSLineProgress
   - DropDown
+  - GeometricLoaders
   - IQKeyboardManagerSwift
+  - SwiftyJSON
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - AlamofireImage
+    - ARSLineProgress
     - DropDown
+    - GeometricLoaders
     - IQKeyboardManagerSwift
+    - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
   AlamofireImage: 34a2d90b0e5fe6a5605f85ae4b7b01e784c60192
+  ARSLineProgress: 7a94aa7d5216109f17aae465b7460ff9f1117634
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  GeometricLoaders: 4fbbeb569cf0ea647c620a9ffb87c9e63812e743
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 9cf7c05b346d788082285354403f909ed819df93
+PODFILE CHECKSUM: d19acd32da29ccd806ad87164b1cebad4be5fa81
 
 COCOAPODS: 1.11.2

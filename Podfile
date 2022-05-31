@@ -10,6 +10,9 @@ target 'HRM' do
 	pod 'DropDown'
   pod 'Alamofire'
   pod 'AlamofireImage'
+  pod 'SwiftyJSON'
+  pod 'GeometricLoaders'
+  pod 'ARSLineProgress'
 
   target 'HRMTests' do
     inherit! :search_paths

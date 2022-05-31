@@ -22,7 +22,7 @@ class ProfileVC: UIViewController {
     
     ///
     var optionArray = ["Edit Profile","Change Password","My Applications","Credits Earned","Country and Language","Sign out"]
-    
+    var employerOption = ["Edit Profile","Change Password","My Applicants","Credits Earned","Country and Language","Sign out"]
     ///
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,12 @@ class ProfileVC: UIViewController {
 
 extension ProfileVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return optionArray.count
+        if UserDefaults.standard.value(forKey: "type") as! String == "Employee"{
+            return optionArray.count
+        }else{
+            return employerOption.count
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,9 +57,16 @@ extension ProfileVC: UITableViewDelegate,UITableViewDataSource{
         case 1:
             let vc = storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
             self.navigationController?.pushViewController(vc, animated: true)
+        
         case 2:
-            let vc = storyboard?.instantiateViewController(withIdentifier: "MyApplicationVC") as! MyApplicationVC
-            self.navigationController?.pushViewController(vc, animated: true)
+            if UserDefaults.standard.value(forKey: "type") as! String == "Employee"{
+                let vc = storyboard?.instantiateViewController(withIdentifier: "MyApplicationVC") as! MyApplicationVC
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else{
+                let vc = storyboard?.instantiateViewController(withIdentifier: "MyApplicantsVC") as! MyApplicantsVC
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
         default:
             print("hello")
         }
