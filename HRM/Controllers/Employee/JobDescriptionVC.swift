@@ -34,13 +34,17 @@ class JobDescriptionVC: UIViewController {
 ///
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainview.addSubview(jobDescriptionView)
+        
+        mainview.backgroundColor = UIColor.clear
+        companyDescription.bounds = mainview.bounds
         getApiData()
     }
     
 
     @IBAction func jobDescription(_ sender: Any) {
-        mainview.addSubview(jobDescriptionView)
+        jobDescriptionView.isHidden = false
+
+        companyDescription.removeFromSuperview()
     }
     
     @IBAction func onMessageTap(_ sender: Any) {
@@ -50,9 +54,11 @@ class JobDescriptionVC: UIViewController {
     }
     @IBAction func onJobApplyTap(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "JobApplyVC") as! JobApplyVC
+        vc.jobId = self.jobId
         self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func onCompanyDescription(_ sender: Any) {
+        jobDescriptionView.isHidden = true
         mainview.addSubview(companyDescription)
     }
 }

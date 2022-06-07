@@ -23,10 +23,11 @@ class ProfileVC: UIViewController {
     ///
     var optionArray = ["Edit Profile","Change Password","My Applications","Credits Earned","Country and Language","Sign out"]
     var employerOption = ["Edit Profile","Change Password","My Applicants","Credits Earned","Country and Language","Sign out"]
+    var profileData = GetProfileModel()
     ///
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        getProfile()
        
     }
     
@@ -73,3 +74,30 @@ extension ProfileVC: UITableViewDelegate,UITableViewDataSource{
     }
     
 }
+
+
+extension ProfileVC{
+    func getProfile(){
+        let userId = UserDefaults.standard.value(forKey: "userId") as? String ?? ""
+        ApiManager.shared.getProfile(userId: userId) {[self] profile,isSuccess in
+            if isSuccess{
+                
+                profileData = profile!
+                setData()
+                print("hello")
+            }else{
+                alert(message: ApiManager.shared.message)
+            }
+        }
+        func setData(){
+            name.text = profileData.name
+            email.text = profileData.email
+            role.text = profileData.type
+            contactNo.text = profileData.number
+//            profileImage
+            
+        }
+}
+}
+
+

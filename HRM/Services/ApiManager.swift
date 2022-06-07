@@ -209,10 +209,46 @@ class ApiManager: UIViewController {
         }
         }
     
+ //MARK: - get userprofile
+    func getProfile(userId: String,completion: @escaping(GetProfileModel?,Bool)->()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            print("Url:- \(ApiUrls.getProfile+userId)")
+            let token = UserDefaults.standard.value(forKey: "token") as! String
+            let head: HTTPHeaders = ["x-access-token": token]
+            AF.request(ApiUrls.getProfile+userId,method: .get,headers: head).response{[self] response in
+                switch(response.result){
+                case .success(let data): do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let respond = json as! NSDictionary
+                    print(respond)
+                    if response.response?.statusCode == 200 {
+                        let data = respond.object(forKey: "data") as! [String:Any]
+                        completion(GetProfileModel.init(JSON(data)),true)
+                    }else{
+                        message = respond.object(forKey: "error") as! String
+                        completion(nil,false)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion(nil,false)
+                }
+                case .failure(let error): do{
+                    print(error)
+                    completion(nil,false)
+                }
+                }
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion(nil,false)
+        }
+       
+    }
+    
  //MARK: - popular job
     func popularJobs(completion: @escaping ([JobDetailModel],Bool)-> ()){
         if ReachabilityNetwork.isConnectedToNetwork(){
-            print(ApiUrls.popularJobs)
+            print("Url:- \(ApiUrls.popularJobs)")
             AF.request(ApiUrls.popularJobs,method: .get).response{
                 response in
                 switch(response.result){
@@ -248,7 +284,7 @@ class ApiManager: UIViewController {
 //MARK: - recentJobs
     func recentJobs(completion: @escaping ([JobDetailModel],Bool)-> ()){
         if ReachabilityNetwork.isConnectedToNetwork(){
-            print(ApiUrls.recentJobs)
+            print("Url:- \(ApiUrls.recentJobs)")
             AF.request(ApiUrls.recentJobs,method: .get).response{
                 response in
                 switch(response.result){
@@ -284,7 +320,7 @@ class ApiManager: UIViewController {
 //MARK: -  getJobdetail by id Api
     func jobDetailById(id: String,completion: @escaping (JobAndCompanyDetailModel?,Bool)-> ()){
         if ReachabilityNetwork.isConnectedToNetwork(){
-            print(ApiUrls.jobDetails+id)
+            print("Url:- \(ApiUrls.jobDetails+id)")
             AF.request(ApiUrls.jobDetails+id,method: .get).response{
                 response in
                 switch(response.result){
@@ -312,5 +348,39 @@ class ApiManager: UIViewController {
             self.message = "Please check internet connection"
             completion(nil,false)
         }
+    }
+
+//MARK: -  apply job api
+    func jobApplyApi(model: JobApplyModel,completion: @escaping(Bool)->()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            print("Url:- \(ApiUrls.jobApply)")
+            AF.request(ApiUrls.jobApply,method: .post,parameters: model,encoder: JSONParameterEncoder.default).response{
+                response in
+                switch(response.result){
+                case .success(let data): do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let respond = json as! NSDictionary
+                    print(respond)
+                    if response.response?.statusCode == 200{
+                        completion(true)
+                    }else{
+                        self.message = respond.object(forKey: "error") as! String
+                        completion(false)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion(false)
+                }
+                case .failure(let error):do{
+                    print(error.localizedDescription)
+                    completion(false)
+                }
+                }
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion(false)
+        }
+        
     }
 }

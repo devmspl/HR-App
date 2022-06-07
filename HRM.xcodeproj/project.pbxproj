@@ -60,6 +60,8 @@
 		6FDE600D2815D67500406D40 /* EmployerHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE600C2815D67500406D40 /* EmployerHomeVC.swift */; };
 		6FDE600F2815D71E00406D40 /* JobDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE600E2815D71E00406D40 /* JobDescriptionVC.swift */; };
 		6FDE60112815D75100406D40 /* CompanyDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE60102815D75100406D40 /* CompanyDetailsVC.swift */; };
+		76BBBA7F284B41EB00B1DC6A /* JobApplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BBBA7E284B41EB00B1DC6A /* JobApplyModel.swift */; };
+		76BBBA81284B72C700B1DC6A /* GetProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BBBA80284B72C700B1DC6A /* GetProfileModel.swift */; };
 		781339E0DEB584FC71907F17 /* Pods_HRM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80961F9DCAA8BD5063FC9B74 /* Pods_HRM.framework */; };
 		96D75ED525DE10001579913B /* Pods_HRM_HRMUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06E653ED10AF146FDA803E29 /* Pods_HRM_HRMUITests.framework */; };
 		E49347240B5A2EE00E0BDC31 /* Pods_HRMTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0F624CE52C46416F3E176C4 /* Pods_HRMTests.framework */; };
@@ -148,6 +150,8 @@
 		6FDE600E2815D71E00406D40 /* JobDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDescriptionVC.swift; sourceTree = "<group>"; };
 		6FDE60102815D75100406D40 /* CompanyDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyDetailsVC.swift; sourceTree = "<group>"; };
 		715810038CFC1A1CCCD3E13B /* Pods-HRMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HRMTests.release.xcconfig"; path = "Target Support Files/Pods-HRMTests/Pods-HRMTests.release.xcconfig"; sourceTree = "<group>"; };
+		76BBBA7E284B41EB00B1DC6A /* JobApplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobApplyModel.swift; sourceTree = "<group>"; };
+		76BBBA80284B72C700B1DC6A /* GetProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GetProfileModel.swift; path = JobModel/GetProfileModel.swift; sourceTree = "<group>"; };
 		80961F9DCAA8BD5063FC9B74 /* Pods_HRM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HRM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F624CE52C46416F3E176C4 /* Pods_HRMTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HRMTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D289FF4CBD52AB80936D78 /* Pods-HRM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HRM.debug.xcconfig"; path = "Target Support Files/Pods-HRM/Pods-HRM.debug.xcconfig"; sourceTree = "<group>"; };
@@ -315,8 +319,8 @@
 		6F76CC712836100A00B17715 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6F3C4B042844CED000381077 /* JobModel */,
-				6F76CC722836103500B17715 /* UserModel.swift */,
+				76BBBA7D284B418900B1DC6A /* getModel */,
+				76BBBA7C284B417D00B1DC6A /* PostModels */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -399,6 +403,24 @@
 				6F76CC8B283D045000B17715 /* SearchVC.swift */,
 			);
 			path = Others;
+			sourceTree = "<group>";
+		};
+		76BBBA7C284B417D00B1DC6A /* PostModels */ = {
+			isa = PBXGroup;
+			children = (
+				6F76CC722836103500B17715 /* UserModel.swift */,
+				76BBBA7E284B41EB00B1DC6A /* JobApplyModel.swift */,
+			);
+			path = PostModels;
+			sourceTree = "<group>";
+		};
+		76BBBA7D284B418900B1DC6A /* getModel */ = {
+			isa = PBXGroup;
+			children = (
+				6F3C4B042844CED000381077 /* JobModel */,
+				76BBBA80284B72C700B1DC6A /* GetProfileModel.swift */,
+			);
+			path = getModel;
 			sourceTree = "<group>";
 		};
 		FA6F0F1A27CCA217002C12E3 /* Font */ = {
@@ -690,6 +712,7 @@
 				6FDE600B2815D63E00406D40 /* MessageVC.swift in Sources */,
 				6FDE5FFB2815D45D00406D40 /* HomeTableCell.swift in Sources */,
 				6F3C4B082845F66100381077 /* JobAndCompanyDetailModel.swift in Sources */,
+				76BBBA7F284B41EB00B1DC6A /* JobApplyModel.swift in Sources */,
 				04083CF827CC918E00070551 /* AppDelegate.swift in Sources */,
 				6F76CC76283616DF00B17715 /* BaseClass.swift in Sources */,
 				6F06640B2800B1BE00B3128C /* OtpVC.swift in Sources */,
@@ -698,6 +721,7 @@
 				6FDE600F2815D71E00406D40 /* JobDescriptionVC.swift in Sources */,
 				6F76CC6E28360C8000B17715 /* ApiManager.swift in Sources */,
 				6FDE60112815D75100406D40 /* CompanyDetailsVC.swift in Sources */,
+				76BBBA81284B72C700B1DC6A /* GetProfileModel.swift in Sources */,
 				6F3C4B062844D1CD00381077 /* JobDetailModel.swift in Sources */,
 				6F76CC88283CE2E100B17715 /* InterviewStatusVC.swift in Sources */,
 				6F0664132800B97000B3128C /* AlertClass.swift in Sources */,
