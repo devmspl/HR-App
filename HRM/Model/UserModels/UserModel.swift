@@ -21,6 +21,16 @@ struct loginModel: Encodable{
     let password: String?
 }
 
+struct SocialLogin: Encodable{
+
+    let socialLinkId: String?
+    let platform: String?
+    let email: String?
+    let username: String?
+    let phoneNumber: String?
+
+}
+
 struct forgetPassword: Encodable{
     let email: String?
 }
@@ -33,3 +43,10 @@ struct resetPasswordModel: Encodable{
     let newPassword: String?
 }
 
+
+struct updateProfileModel: Encodable{
+    let userName: String?
+    let companyName: String?
+    let phoneNumber: String?
+    let email: String?
+}

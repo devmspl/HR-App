@@ -89,15 +89,16 @@ extension ProfileVC{
                 alert(message: ApiManager.shared.message)
             }
         }
-        func setData(){
-            name.text = profileData.name
-            email.text = profileData.email
-            role.text = profileData.type
-            contactNo.text = profileData.number
-//            profileImage
-            
-        }
+        
 }
+    
+    func setData(){
+        name.text = profileData.name
+        email.text = profileData.email
+        role.text = profileData.type
+        contactNo.text = profileData.number
+        
+    }
 }
 
 

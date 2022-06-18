@@ -60,6 +60,11 @@
 		6FDE600D2815D67500406D40 /* EmployerHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE600C2815D67500406D40 /* EmployerHomeVC.swift */; };
 		6FDE600F2815D71E00406D40 /* JobDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE600E2815D71E00406D40 /* JobDescriptionVC.swift */; };
 		6FDE60112815D75100406D40 /* CompanyDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDE60102815D75100406D40 /* CompanyDetailsVC.swift */; };
+		76451EDC2858660000719B3A /* ApplyListByIdModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76451EDB2858660000719B3A /* ApplyListByIdModel.swift */; };
+		769AE323285900BB00280356 /* CreateJobModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769AE322285900BA00280356 /* CreateJobModel.swift */; };
+		769AE32D285C547B00280356 /* CreateWishlistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769AE32C285C547B00280356 /* CreateWishlistModel.swift */; };
+		769AE330285C5ECD00280356 /* GetWishlistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769AE32F285C5ECD00280356 /* GetWishlistModel.swift */; };
+		769AE333285C859500280356 /* GetCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769AE332285C859500280356 /* GetCategoryModel.swift */; };
 		76BBBA7F284B41EB00B1DC6A /* JobApplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BBBA7E284B41EB00B1DC6A /* JobApplyModel.swift */; };
 		76BBBA81284B72C700B1DC6A /* GetProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BBBA80284B72C700B1DC6A /* GetProfileModel.swift */; };
 		781339E0DEB584FC71907F17 /* Pods_HRM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80961F9DCAA8BD5063FC9B74 /* Pods_HRM.framework */; };
@@ -150,8 +155,13 @@
 		6FDE600E2815D71E00406D40 /* JobDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDescriptionVC.swift; sourceTree = "<group>"; };
 		6FDE60102815D75100406D40 /* CompanyDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyDetailsVC.swift; sourceTree = "<group>"; };
 		715810038CFC1A1CCCD3E13B /* Pods-HRMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HRMTests.release.xcconfig"; path = "Target Support Files/Pods-HRMTests/Pods-HRMTests.release.xcconfig"; sourceTree = "<group>"; };
+		76451EDB2858660000719B3A /* ApplyListByIdModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyListByIdModel.swift; sourceTree = "<group>"; };
+		769AE322285900BA00280356 /* CreateJobModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateJobModel.swift; sourceTree = "<group>"; };
+		769AE32C285C547B00280356 /* CreateWishlistModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWishlistModel.swift; sourceTree = "<group>"; };
+		769AE32F285C5ECD00280356 /* GetWishlistModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWishlistModel.swift; sourceTree = "<group>"; };
+		769AE332285C859500280356 /* GetCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCategoryModel.swift; sourceTree = "<group>"; };
 		76BBBA7E284B41EB00B1DC6A /* JobApplyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobApplyModel.swift; sourceTree = "<group>"; };
-		76BBBA80284B72C700B1DC6A /* GetProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GetProfileModel.swift; path = JobModel/GetProfileModel.swift; sourceTree = "<group>"; };
+		76BBBA80284B72C700B1DC6A /* GetProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProfileModel.swift; sourceTree = "<group>"; };
 		80961F9DCAA8BD5063FC9B74 /* Pods_HRM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HRM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F624CE52C46416F3E176C4 /* Pods_HRMTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HRMTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D289FF4CBD52AB80936D78 /* Pods-HRM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HRM.debug.xcconfig"; path = "Target Support Files/Pods-HRM/Pods-HRM.debug.xcconfig"; sourceTree = "<group>"; };
@@ -301,6 +311,7 @@
 		6F3C4B042844CED000381077 /* JobModel */ = {
 			isa = PBXGroup;
 			children = (
+				769AE322285900BA00280356 /* CreateJobModel.swift */,
 				6F3C4B052844D1CD00381077 /* JobDetailModel.swift */,
 				6F3C4B072845F66100381077 /* JobAndCompanyDetailModel.swift */,
 			);
@@ -319,8 +330,11 @@
 		6F76CC712836100A00B17715 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				76BBBA7D284B418900B1DC6A /* getModel */,
-				76BBBA7C284B417D00B1DC6A /* PostModels */,
+				769AE331285C855600280356 /* CategoryModel */,
+				769AE32E285C5D8D00280356 /* WishlistModel */,
+				76451EDA2858654400719B3A /* ApplyModel */,
+				6F3C4B042844CED000381077 /* JobModel */,
+				76BBBA7C284B417D00B1DC6A /* UserModels */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -405,22 +419,39 @@
 			path = Others;
 			sourceTree = "<group>";
 		};
-		76BBBA7C284B417D00B1DC6A /* PostModels */ = {
+		76451EDA2858654400719B3A /* ApplyModel */ = {
 			isa = PBXGroup;
 			children = (
-				6F76CC722836103500B17715 /* UserModel.swift */,
 				76BBBA7E284B41EB00B1DC6A /* JobApplyModel.swift */,
+				76451EDB2858660000719B3A /* ApplyListByIdModel.swift */,
 			);
-			path = PostModels;
+			path = ApplyModel;
 			sourceTree = "<group>";
 		};
-		76BBBA7D284B418900B1DC6A /* getModel */ = {
+		769AE32E285C5D8D00280356 /* WishlistModel */ = {
 			isa = PBXGroup;
 			children = (
-				6F3C4B042844CED000381077 /* JobModel */,
-				76BBBA80284B72C700B1DC6A /* GetProfileModel.swift */,
+				769AE32C285C547B00280356 /* CreateWishlistModel.swift */,
+				769AE32F285C5ECD00280356 /* GetWishlistModel.swift */,
 			);
-			path = getModel;
+			path = WishlistModel;
+			sourceTree = "<group>";
+		};
+		769AE331285C855600280356 /* CategoryModel */ = {
+			isa = PBXGroup;
+			children = (
+				769AE332285C859500280356 /* GetCategoryModel.swift */,
+			);
+			path = CategoryModel;
+			sourceTree = "<group>";
+		};
+		76BBBA7C284B417D00B1DC6A /* UserModels */ = {
+			isa = PBXGroup;
+			children = (
+				76BBBA80284B72C700B1DC6A /* GetProfileModel.swift */,
+				6F76CC722836103500B17715 /* UserModel.swift */,
+			);
+			path = UserModels;
 			sourceTree = "<group>";
 		};
 		FA6F0F1A27CCA217002C12E3 /* Font */ = {
@@ -681,6 +712,7 @@
 				6F76CC84283CC4F100B17715 /* MyApplicantsVC.swift in Sources */,
 				6F76CC7F283CAA7500B17715 /* MyApplicationTableCell.swift in Sources */,
 				6F76CC81283CAC1B00B17715 /* MyApplicationVC.swift in Sources */,
+				769AE333285C859500280356 /* GetCategoryModel.swift in Sources */,
 				6F76CC7028360C9900B17715 /* ApiUrls.swift in Sources */,
 				6F76CC7D2837578C00B17715 /* FavoriteCell.swift in Sources */,
 				6F76CC96283F985600B17715 /* ApplicantsDetailVC.swift in Sources */,
@@ -692,9 +724,11 @@
 				6FDE600D2815D67500406D40 /* EmployerHomeVC.swift in Sources */,
 				6FDE60012815D4A400406D40 /* ChatReceiveCell.swift in Sources */,
 				6FDE60052815D51A00406D40 /* SearchTableCell.swift in Sources */,
+				769AE323285900BB00280356 /* CreateJobModel.swift in Sources */,
 				6FDE5FFF2815D48D00406D40 /* ChatSenderCell.swift in Sources */,
 				6F06640F2800B29700B3128C /* EmployerSignUpVC.swift in Sources */,
 				6F76CC86283CC7CD00B17715 /* MyApplicantsTableCell.swift in Sources */,
+				769AE330285C5ECD00280356 /* GetWishlistModel.swift in Sources */,
 				6F76CC94283E507600B17715 /* ChangePasswordVC.swift in Sources */,
 				6F06640D2800B22800B3128C /* ResetPasswordVC.swift in Sources */,
 				6FDE5FF42815D3B300406D40 /* EmployeeHomeVC.swift in Sources */,
@@ -711,6 +745,7 @@
 				6F76CC792836770B00B17715 /* TabBarVC.swift in Sources */,
 				6FDE600B2815D63E00406D40 /* MessageVC.swift in Sources */,
 				6FDE5FFB2815D45D00406D40 /* HomeTableCell.swift in Sources */,
+				76451EDC2858660000719B3A /* ApplyListByIdModel.swift in Sources */,
 				6F3C4B082845F66100381077 /* JobAndCompanyDetailModel.swift in Sources */,
 				76BBBA7F284B41EB00B1DC6A /* JobApplyModel.swift in Sources */,
 				04083CF827CC918E00070551 /* AppDelegate.swift in Sources */,
@@ -719,6 +754,7 @@
 				6F0664012800B0FA00B3128C /* LandingScreenVC.swift in Sources */,
 				04083CFA27CC918E00070551 /* SceneDelegate.swift in Sources */,
 				6FDE600F2815D71E00406D40 /* JobDescriptionVC.swift in Sources */,
+				769AE32D285C547B00280356 /* CreateWishlistModel.swift in Sources */,
 				6F76CC6E28360C8000B17715 /* ApiManager.swift in Sources */,
 				6FDE60112815D75100406D40 /* CompanyDetailsVC.swift in Sources */,
 				76BBBA81284B72C700B1DC6A /* GetProfileModel.swift in Sources */,
