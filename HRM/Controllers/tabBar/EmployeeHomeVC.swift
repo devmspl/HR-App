@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import GeometricLoaders
 import ARSLineProgress
 
 class EmployeeHomeVC: UIViewController {
@@ -16,7 +15,6 @@ class EmployeeHomeVC: UIViewController {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var searchText: UITextField!
   
-    var container: WaterWaves?
     var popularJobsArray = [JobDetailModel]()
     var recentJobsArray = [JobDetailModel]()
     
@@ -81,21 +79,21 @@ class EmployeeHomeVC: UIViewController {
 }
 extension EmployeeHomeVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return popularJobsArray.count
+        return recentJobsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = homeTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HomeTableCell
         cell.selectionStyle = .none
-        cell.jobName.text = popularJobsArray[indexPath.row].jobName
-        cell.salary.text = "$ \(popularJobsArray[indexPath.row].salary ?? 0)"
-        cell.jobType.text = popularJobsArray[indexPath.row].imageUrl
+        cell.jobName.text = recentJobsArray[indexPath.row].jobName
+        cell.salary.text = "$ \(recentJobsArray[indexPath.row].salary ?? 0)"
+        cell.jobType.text = recentJobsArray[indexPath.row].imageUrl
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "JobDescriptionVC")  as! JobDescriptionVC
-        guard let id = recentJobsArray[indexPath.row].id else {return}
+         let id = recentJobsArray[indexPath.row].id as! String
         vc.jobId = id
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -119,7 +117,7 @@ extension EmployeeHomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UIC
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "JobDescriptionVC")  as! JobDescriptionVC
-        guard let id = popularJobsArray[indexPath.row].id else {return}
+         let id = popularJobsArray[indexPath.row].id  as! String
         vc.jobId = id
         self.navigationController?.pushViewController(vc, animated: true)
     }

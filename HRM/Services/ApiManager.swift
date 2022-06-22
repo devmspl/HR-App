@@ -315,6 +315,76 @@ class ApiManager: UIViewController {
         }
         }
     
+    
+//MARK: - create job api
+        func createJob(model: CreateJobModel,completion: @escaping(Bool)->()){
+            if ReachabilityNetwork.isConnectedToNetwork(){
+                print("URL: - \(ApiUrls.jobCreate)")
+                AF.request(ApiUrls.jobCreate,method: .post,parameters: model,encoder: JSONParameterEncoder.default).response{
+                    response in
+                    switch(response.result){
+                    case .success(let data): do{
+                        let json = try JSONSerialization.jsonObject(with: data!)
+                        let respond = json as! NSDictionary
+                        print("respond",respond)
+                        if response.response?.statusCode == 200{
+                            print("Job successfully created")
+                            completion(true)
+                        }else{
+                            self.message = respond.object(forKey: "error") as! String
+                            print(self.message)
+                            completion(false)
+                        }
+                    }catch{
+                        print(error.localizedDescription)
+                        completion(false)
+                    }
+                    case .failure(let error): do{
+                        print(error.localizedDescription)
+                        completion(false)
+                    }
+                    }
+                }
+            }else{
+                self.message = "Please check internet connection"
+                completion(false)
+            }
+        }
+//MARK: -
+    func updateJob(userId: String,model: CreateJobModel,completion: @escaping(Bool)->()){
+            if ReachabilityNetwork.isConnectedToNetwork(){
+                print("URL: - \(ApiUrls.updatejob+userId)")
+                AF.request(ApiUrls.updatejob+userId,method: .put,parameters: model,encoder: JSONParameterEncoder.default).response{
+                    response in
+                    switch(response.result){
+                    case .success(let data): do{
+                        let json = try JSONSerialization.jsonObject(with: data!)
+                        let respond = json as! NSDictionary
+                        print("respond",respond)
+                        if response.response?.statusCode == 200{
+                            print("Job successfully created")
+                            completion(true)
+                        }else{
+                            self.message = respond.object(forKey: "error") as! String
+                            print(self.message)
+                            completion(false)
+                        }
+                    }catch{
+                        print(error.localizedDescription)
+                        completion(false)
+                    }
+                    case .failure(let error): do{
+                        print(error.localizedDescription)
+                        completion(false)
+                    }
+                    }
+                }
+            }else{
+                self.message = "Please check internet connection"
+                completion(false)
+            }
+        }
+
  //MARK: - popular job
     func popularJobs(completion: @escaping ([JobDetailModel],Bool)-> ()){
         if ReachabilityNetwork.isConnectedToNetwork(){
@@ -387,6 +457,43 @@ class ApiManager: UIViewController {
             completion([],false)
         }
     }
+//MARK: - get all jobs
+    func getAllJobs(completion: @escaping ([JobAndCompanyDetailModel],Bool)-> ()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            print("Url:- \(ApiUrls.recentJobs)")
+            AF.request(ApiUrls.recentJobs,method: .get).response{
+                response in
+                switch(response.result){
+                case .success(let data): do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let success = response.response?.statusCode
+                    let respond = json as! NSDictionary
+                    if success == 200{
+                        print(respond)
+                        let data = respond.object(forKey: "data") as! [[String: Any]]
+                        var jobArray = [JobAndCompanyDetailModel]()
+                        for i in data{
+                            jobArray.append(JobAndCompanyDetailModel.init(JSON(i)))
+                        }
+                        completion(jobArray,true)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion([],false)
+                }
+                case .failure(let error):do{
+                    print(error.localizedDescription)
+                    completion([],false)
+                }
+                }
+            
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion([],false)
+        }
+    }
+    
 //MARK: -  getJobdetail by id Api
     func jobDetailById(id: String,completion: @escaping (JobAndCompanyDetailModel?,Bool)-> ()){
         if ReachabilityNetwork.isConnectedToNetwork(){
@@ -524,31 +631,27 @@ class ApiManager: UIViewController {
             completion([],false)
         }
     }
-//MARK: - create job api
-    func createJob(model: CreateJobModel,completion: @escaping(Bool)->()){
+//MARK: - delete job api
+    func deleteJobApi(jobId: String,completion: @escaping(Bool)->()){
         if ReachabilityNetwork.isConnectedToNetwork(){
-            print("URL: - \(ApiUrls.jobCreate)")
-            AF.request(ApiUrls.jobCreate,method: .post,parameters: model,encoder: JSONParameterEncoder.default).response{
-                response in
+            print("URL: - \(ApiUrls.deletejob+jobId)")
+            AF.request(ApiUrls.deletejob+jobId,method: .delete).responseJSON { response in
                 switch(response.result){
-                case .success(let data): do{
-                    let json = try JSONSerialization.jsonObject(with: data!)
+                case .success(let json): do{
+                    let status = response.response?.statusCode
                     let respond = json as! NSDictionary
-                    print("respond",respond)
-                    if response.response?.statusCode == 200{
-                        print("Job successfully created")
+                    print(respond)
+                    if status == 200{
+                        print("success")
                         completion(true)
                     }else{
                         self.message = respond.object(forKey: "error") as! String
-                        print(self.message)
                         completion(false)
                     }
-                }catch{
-                    print(error.localizedDescription)
-                    completion(false)
                 }
-                case .failure(let error): do{
-                    print(error.localizedDescription)
+                
+                case .failure(let error):do{
+                    print("error",error)
                     completion(false)
                 }
                 }
@@ -558,9 +661,75 @@ class ApiManager: UIViewController {
             completion(false)
         }
     }
-//    "userId": "string",
-//      "jobId": "string",
-//      "status": true
+//MARK: - job search api
+    func jobSearchApi(text: String,completion: @escaping([JobData],Bool)->()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            AF.request(ApiUrls.searchJob+text,method: .get).response{
+                response in
+                switch(response.result){
+                case .success(let data): do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let status = response.response?.statusCode
+                    let respond = json as! NSDictionary
+                    print(respond)
+                    if status == 200{
+                        let data = respond.object(forKey: "message") as! [[String:Any]]
+                        var jobData = [JobData]()
+                        for i in data{
+                            jobData.append(JobData.init(JSON(i)))
+                        }
+                        completion(jobData,true)
+                    }else{
+                        completion([],false)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion([],false)
+                }
+                case .failure(let error): do{
+                    print(error.localizedDescription)
+                    completion([],false)
+                }
+                    
+                }
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion([],false)
+        }
+    }
+//MARK: - job filter api
+    func jobFilter(queryString: String,completion: @escaping(Bool)->()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            AF.request(ApiUrls.jobFilter+queryString,method: .get).response{
+                response in
+                switch(response.result){
+                case .success(let data):do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let status = response.response?.statusCode
+                    let respond = json as! NSDictionary
+                    print(respond)
+                    if status == 200{
+                        completion(true)
+                    }else{
+                        self.message = respond.object(forKey: "error") as! String
+                        completion(false)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion(false)
+                }
+                case .failure(let error):do{
+                    print(error.localizedDescription)
+                    completion(false)
+                }                    
+                }
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion(false)
+        }
+    }
 //MARK: - createwishlist api
     func createWishlist(model: CreateWishlistModel,completion: @escaping(Bool)->()){
         if ReachabilityNetwork.isConnectedToNetwork(){
@@ -625,7 +794,6 @@ class ApiManager: UIViewController {
                     completion([],false)
                 }
                 }
-            
             }
         }else{
             self.message = "Please check internet connection"
@@ -633,7 +801,7 @@ class ApiManager: UIViewController {
         }
     }
 //MARK: - getCategories
-    func getcategories(completion: @escaping ([GetCategoryModel],Bool)-> ()){
+    func getAllCategories(completion: @escaping ([GetCategoryModel],Bool)-> ()){
         if ReachabilityNetwork.isConnectedToNetwork(){
             print("Url:- \(ApiUrls.getAllCategory)")
             AF.request(ApiUrls.getAllCategory,method: .get).response{
@@ -668,6 +836,40 @@ class ApiManager: UIViewController {
             completion([],false)
         }
     }
+//MARK: - get category by id
+    func getCategoryById(categoryId: String,completion: @escaping(GetCategoryModel?,Bool)->()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            AF.request(ApiUrls.getCatogeryById, method: .get).response{
+                response in
+                switch(response.result){
+                case .success(let data):do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let status = response.response?.statusCode
+                    let respond = json as! NSDictionary
+                    print(respond)
+                    if status == 200{
+                        let data = respond.object(forKey: "data") as! [String:Any]
+                        completion(GetCategoryModel.init(JSON(data)),true)
+                    }else{
+                        self.message = respond.object(forKey: "error") as! String
+                        completion(nil,false)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion(nil,false)
+                }
+                case .failure(let error): do{
+                    print(error.localizedDescription)
+                    completion(nil,false)
+                }
+                }
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion(nil,false)
+        }
+       
+    }
 //MARK: - create categories
     func createCategory(categoryname: String,completion: @escaping(Bool)->()){
         if ReachabilityNetwork.isConnectedToNetwork(){
@@ -701,4 +903,58 @@ class ApiManager: UIViewController {
             completion(false)
         }
     }
+//MARK: - image upload single
+    func upload(image: UIImage,
+                progressCompletion: @escaping (_ percent: Float) -> Void,
+                completion: @escaping (_ result: Bool) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+            print("Could not get JPEG representation of UIImage")
+            return
+        }
+        let randomno = Int.random(in: 1000...100000)
+        let imgFileName = "image\(randomno).jpg"
+        let userId = UserDefaults.standard.value(forKey: "userId") as! String
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                //
+                multipartFormData.append(imageData,
+                                         withName: "file",
+                                         fileName: imgFileName,
+                                         mimeType: "image/jpeg")
+            },
+            to: ApiUrls.imageSingleUpload+userId, usingThreshold: UInt64.init(), method: .put)
+            .uploadProgress { progress in
+                progressCompletion(Float(progress.fractionCompleted))
+            }
+            .response { response in
+                debugPrint(response)
+            }
+    }
+//MARK: - image upload multiple
+    func uploadProductImages(image: [UIImage],progressCompletion: @escaping (_ percent: Float) -> Void,
+                      completion: @escaping (_ result: Bool) -> Void) {
+//              guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+//              print("Could not get JPEG representation of UIImage")
+//              return
+//            }
+            let randomno = Int.random(in: 1000...100000)
+           let imgFileName = "image\(randomno).jpg"
+        let userId = UserDefaults.standard.object(forKey: "userId") as! String
+            AF.upload(
+              multipartFormData: { multipartFormData in
+                for i in 0...image.count-1{
+                    multipartFormData.append(image[i].jpegData(compressionQuality: 0.5)!,
+                                             withName: "files[]",
+                                             fileName: imgFileName,
+                                             mimeType: "image/jpeg")
+                              }
+               },
+              to:  ApiUrls.imageMultipleUpload+userId, usingThreshold: UInt64.init(), method: .put)
+              .uploadProgress { progress in
+                   progressCompletion(Float(progress.fractionCompleted))
+              }
+              .response { response in
+                  debugPrint(response)
+              }
+          }
 }
