@@ -282,8 +282,10 @@ class ApiManager: UIViewController {
     func updateUserApi(model:updateProfileModel,completion: @escaping (NSDictionary,Bool) -> ()){
         if ReachabilityNetwork.isConnectedToNetwork(){
             let id = UserDefaults.standard.object(forKey: "userId") as! String
+            let token = UserDefaults.standard.object(forKey: "token") as! String
+            let head: HTTPHeaders = ["x-access-token":token]
             print("Url:- \(ApiUrls.updateUser+id)")
-            AF.request(ApiUrls.updateUser+id,method: .put,parameters: model,encoder: JSONParameterEncoder.default).response{ [self]
+            AF.request(ApiUrls.updateUser+id,method: .put,parameters: model,encoder: JSONParameterEncoder.default,headers: head).response{ [self]
                 response in
                 switch(response.result){
                     
@@ -743,7 +745,6 @@ class ApiManager: UIViewController {
                     let respond = json as! NSDictionary
                     print("respond",respond)
                     if response.response?.statusCode == 200{
-                        print("Job successfully created")
                         completion(true)
                     }else{
                         self.message = respond.object(forKey: "error") as! String
@@ -778,7 +779,7 @@ class ApiManager: UIViewController {
                     let respond = json as! NSDictionary
                     if success == 200{
                         print(respond)
-                        let data = respond.object(forKey: "message") as! [[String: Any]]
+                        let data = respond.object(forKey: "data") as! [[String: Any]]
                         var jobArray = [GetWishlistModel]()
                         for i in data{
                             jobArray.append(GetWishlistModel.init(JSON(i)))
@@ -904,7 +905,7 @@ class ApiManager: UIViewController {
         }
     }
 //MARK: - image upload single
-    func upload(image: UIImage,
+    func uploadSingleImage(image: UIImage,
                 progressCompletion: @escaping (_ percent: Float) -> Void,
                 completion: @escaping (_ result: Bool) -> Void) {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else {
@@ -921,8 +922,9 @@ class ApiManager: UIViewController {
                                          withName: "file",
                                          fileName: imgFileName,
                                          mimeType: "image/jpeg")
+                multipartFormData.append((userId.data(using: String.Encoding.utf8, allowLossyConversion: false))!, withName: "id")
             },
-            to: ApiUrls.imageSingleUpload+userId, usingThreshold: UInt64.init(), method: .put)
+            to: ApiUrls.imageSingleUpload, usingThreshold: UInt64.init(), method: .post)
             .uploadProgress { progress in
                 progressCompletion(Float(progress.fractionCompleted))
             }
@@ -931,7 +933,7 @@ class ApiManager: UIViewController {
             }
     }
 //MARK: - image upload multiple
-    func uploadProductImages(image: [UIImage],progressCompletion: @escaping (_ percent: Float) -> Void,
+    func uploadMultipleImages(image: [UIImage],progressCompletion: @escaping (_ percent: Float) -> Void,
                       completion: @escaping (_ result: Bool) -> Void) {
 //              guard let imageData = image.jpegData(compressionQuality: 0.5) else {
 //              print("Could not get JPEG representation of UIImage")
@@ -957,4 +959,35 @@ class ApiManager: UIViewController {
                   debugPrint(response)
               }
           }
+    
+    //MARK: - profileImageUpload
+    func uploadProfileImage(image: UIImage,
+                progressCompletion: @escaping (_ percent: Float) -> Void,
+                completion: @escaping (_ result: Bool) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+            print("Could not get JPEG representation of UIImage")
+            return
+        }
+        let randomno = Int.random(in: 1000...100000)
+        let imgFileName = "image\(randomno).jpg"
+        let userId = UserDefaults.standard.value(forKey: "userId") as! String
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                //
+                multipartFormData.append(imageData,
+                                         withName: "file",
+                                         fileName: imgFileName,
+                                         mimeType: "image/jpeg")
+                multipartFormData.append((userId.data(using: String.Encoding.utf8, allowLossyConversion: false))!, withName: "id")
+            },
+            to: ApiUrls.uploadprofileImage, usingThreshold: UInt64.init(), method: .post)
+            .uploadProgress { progress in
+                progressCompletion(Float(progress.fractionCompleted))
+            }
+            .response { response in
+                debugPrint(response)
+            }
+    }
 }
+
+

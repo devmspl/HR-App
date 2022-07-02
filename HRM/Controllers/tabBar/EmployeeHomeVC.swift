@@ -17,11 +17,14 @@ class EmployeeHomeVC: UIViewController {
   
     var popularJobsArray = [JobDetailModel]()
     var recentJobsArray = [JobDetailModel]()
-    
+    var userId = ""
+    var like = false
+    var jobId = ""
     override func viewDidLoad() {
         super.viewDidLoad()
             getPopularJob()
-        
+        userId = UserDefaults.standard.value(forKey: "userId") as! String
+        like = false
     }
   
     
@@ -33,6 +36,7 @@ class EmployeeHomeVC: UIViewController {
                 popularJobsArray.append(contentsOf: response)
                 homeCollection.reloadData()
                 getRecentJob()
+                
             }else{
                 alert(message: ApiManager.shared.message)
             }
@@ -56,10 +60,30 @@ class EmployeeHomeVC: UIViewController {
         
     }
     @IBAction func oncollectionLikeTap(_ sender: UIButton){
-        
+        like = true
+        jobId = popularJobsArray[sender.tag].id!
+        let model = CreateWishlistModel(userId: self.userId, jobId: jobId, status: true)
+        ApiManager.shared.createWishlist(model: model) { isSuccess in
+            if isSuccess{
+                print("hello")
+                self.homeCollection.reloadData()
+            }else{
+                self.alert(message: ApiManager.shared.message)
+            }
+        }
     }
     @IBAction func ontableLikeTap(_ sender: UIButton){
-        
+        like = true
+        jobId = recentJobsArray[sender.tag].id!
+        let model = CreateWishlistModel(userId: self.userId, jobId: jobId, status: true)
+        ApiManager.shared.createWishlist(model: model) { isSuccess in
+            if isSuccess{
+                print("hello")
+                self.homeTable.reloadData()
+            }else{
+                self.alert(message: ApiManager.shared.message)
+            }
+        }
     }
     @IBAction func collectionShowAllTap(_ sender: UIButton){
         let vc = storyboard?.instantiateViewController(withIdentifier: "SearchVC")  as! SearchVC
@@ -85,6 +109,8 @@ extension EmployeeHomeVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = homeTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HomeTableCell
         cell.selectionStyle = .none
+        cell.likeBtn.tag = indexPath.row
+        
         cell.jobName.text = recentJobsArray[indexPath.row].jobName
         cell.salary.text = "$ \(recentJobsArray[indexPath.row].salary ?? 0)"
         cell.jobType.text = recentJobsArray[indexPath.row].imageUrl
@@ -108,6 +134,12 @@ extension EmployeeHomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UIC
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = homeCollection.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! HomeCollectionCell
+        cell.likeBtn.tag = indexPath.item
+        if like == true{
+            cell.likeBtn.setImage(UIImage(named:"likeActive"), for: .normal)
+        }else{
+            cell.likeBtn.setImage(UIImage(named:"likeInactive"), for: .normal)
+        }
         cell.jobName.text = popularJobsArray[indexPath.row].jobName
         cell.salaryAndLocation.text = "$ \(popularJobsArray[indexPath.row].salary ?? 0), \(popularJobsArray[indexPath.row].location ?? "")"
         return cell
@@ -124,3 +156,8 @@ extension EmployeeHomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UIC
     
 }
 
+
+
+extension EmployerHomeVC{
+   
+}

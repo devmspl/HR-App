@@ -19,7 +19,9 @@ public struct ApiUrls {
     public static var resetPassword               = BaseUrl + "users/newPassword"
     public static var getProfile                  = BaseUrl + "users/currentUser/"
     public static var updateUser                  = BaseUrl + "users/update/"
-
+    public static var uploadprofileImage          = BaseUrl + "users/uploadImage"
+    
+//    users/uploadImage
 //MARK: -  jobApi
     public static var popularJobs                 = BaseUrl + "jobs/getpopularjobs"
     public static var recentJobs                  = BaseUrl + "jobs/recentPosts"
@@ -46,7 +48,7 @@ public struct ApiUrls {
     public static var getCatogeryById             = BaseUrl + "category/getCategory/"
     
 //MARK: - image api's
-    public static var imageSingleUpload           = BaseUrl + "images/uploadSingle/"
+    public static var imageSingleUpload           = BaseUrl + "images/uploadSingle"
     public static var imageMultipleUpload         = BaseUrl + "images/uploadMultiple/"
     public static var getFile                     = BaseUrl + "images/getFile/"
     

@@ -7,19 +7,21 @@
 
 import UIKit
 
-class MyApplicationVC: UIViewController {
+class MyApplicationVC: UIViewController,UIDocumentPickerDelegate {
 
     @IBOutlet weak var applicationTable: UITableView!
     
     var myApplication = [ApplyListByIdModel?]()
-    
+    var picker = UIDocumentPickerViewController.init(documentTypes: [".pdf", ".png", ".jpeg", ".jpg"], in: .open)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         getApplications()
+        picker.delegate = self
     }
     
     @IBAction func onEditTap(_ sender: UIButton){
-        
+        self.present(picker, animated: true, completion: nil)
     }
     @IBAction func onStatusTap(_ sender: UIButton){
         

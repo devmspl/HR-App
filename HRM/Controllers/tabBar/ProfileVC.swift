@@ -27,10 +27,12 @@ class ProfileVC: UIViewController {
     ///
     override func viewDidLoad() {
         super.viewDidLoad()
-        getProfile()
+        
        
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        getProfile()
+    }
 
 }
 
@@ -50,15 +52,18 @@ extension ProfileVC: UITableViewDelegate,UITableViewDataSource{
         cell.selectionStyle = .none
         return cell
     }
+///
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row{
         case 0:
             let vc = storyboard?.instantiateViewController(withIdentifier: "EditProfileVC") as! EditProfileVC
+            vc.profileData = profileData
             self.navigationController?.pushViewController(vc, animated: true)
+       
         case 1:
             let vc = storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
             self.navigationController?.pushViewController(vc, animated: true)
-        
+
         case 2:
             if UserDefaults.standard.value(forKey: "type") as! String == "Employee"{
                 let vc = storyboard?.instantiateViewController(withIdentifier: "MyApplicationVC") as! MyApplicationVC
@@ -68,6 +73,16 @@ extension ProfileVC: UITableViewDelegate,UITableViewDataSource{
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             
+        case 5:
+            self.showAlertWithTwoActions(alertTitle:"Sign Out", message: "Do you want to sign out?", action1Title: "Yes", action1Style: .destructive, action2Title: "No") { yes in
+                UserDefaults.standard.removeObject(forKey: "id")
+                UserDefaults.standard.removeObject(forKey: "token")
+                UserDefaults.standard.removeObject(forKey: "type")
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "LandingScreenVC") as! LandingScreenVC
+                self.navigationController?.pushViewController(vc, animated: true)
+            } completion2: { no in
+                print("not logged out")
+            }
         default:
             print("hello")
         }

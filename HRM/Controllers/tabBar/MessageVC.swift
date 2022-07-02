@@ -34,6 +34,9 @@ extension MessageVC: UITableViewDelegate,UITableViewDataSource{
         cell.selectionStyle = .none
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
 }

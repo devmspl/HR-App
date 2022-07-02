@@ -363,11 +363,11 @@
 		6FDE5FF22815D36D00406D40 /* tabBar */ = {
 			isa = PBXGroup;
 			children = (
+				6F76CC782836770A00B17715 /* TabBarVC.swift */,
 				6FDE600A2815D63E00406D40 /* MessageVC.swift */,
 				6FDE5FF32815D3B200406D40 /* EmployeeHomeVC.swift */,
 				6FDE5FF52815D3EB00406D40 /* ProfileVC.swift */,
 				6FDE600C2815D67500406D40 /* EmployerHomeVC.swift */,
-				6F76CC782836770A00B17715 /* TabBarVC.swift */,
 				6F76CC7A28367D1200B17715 /* FavoriteVC.swift */,
 			);
 			path = tabBar;

@@ -14,4 +14,7 @@ class ChatVC: UIViewController {
 
     }
 
+    @IBAction func onBacktap(_ sender: UIButton){
+        self.navigationController?.popViewController(animated: true)
+    }
 }
