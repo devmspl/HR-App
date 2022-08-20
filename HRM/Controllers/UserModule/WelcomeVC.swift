@@ -16,13 +16,13 @@ class WelcomeVC: UIViewController {
     }
     
     @IBAction func onEmployeeTap(_ sender: Any) {
-        UserDefaults.standard.setValue("Employee", forKey: "type")
+        UserDefaults.standard.setValue("employee", forKey: "type")
         let vc = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func onEmployerTap(_ sender: Any) {
-        UserDefaults.standard.setValue("Employer", forKey: "type")
+        UserDefaults.standard.setValue("employer", forKey: "type")
         let vc = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
         self.navigationController?.pushViewController(vc, animated: true)
     }

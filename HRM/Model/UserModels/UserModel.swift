@@ -26,7 +26,8 @@ struct SocialLogin: Encodable{
     let socialLinkId: String?
     let platform: String?
     let email: String?
-    let username: String?
+    let userName: String?
+    let roleType: String?
     let phoneNumber: String?
 
 }

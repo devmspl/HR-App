@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class ProfileVC: UIViewController {
     ///
+    @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var profileImage:UIImageView!
     @IBOutlet weak var name:UILabel!
     @IBOutlet weak var role:UILabel!
@@ -20,9 +22,10 @@ class ProfileVC: UIViewController {
         }
     }
     
+    var key = ""
     ///
-    var optionArray = ["Edit Profile","Change Password","My Applications","Credits Earned","Country and Language","Sign out"]
-    var employerOption = ["Edit Profile","Change Password","My Applicants","Credits Earned","Country and Language","Sign out"]
+    var optionArray = ["Edit Profile","Change Password","My Applications","My Wishlist","Sign out"]
+    var employerOption = ["Edit Profile","Change Password","My Jobs","Sign out"]
     var profileData = GetProfileModel()
     ///
     override func viewDidLoad() {
@@ -32,24 +35,36 @@ class ProfileVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         getProfile()
+        if key == ""{
+            backBtn.isHidden = true
+        }else{
+            backBtn.isHidden = false
+        }
     }
-
+    @IBAction func onBackTap(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
 }
 
 extension ProfileVC: UITableViewDelegate,UITableViewDataSource{
+   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if UserDefaults.standard.value(forKey: "type") as! String == "Employee"{
             return optionArray.count
         }else{
             return employerOption.count
         }
-       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = profileTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableCell
-        cell.tableLabel.text = optionArray[indexPath.row]
-        cell.selectionStyle = .none
+        if UserDefaults.standard.value(forKey: "type") as! String == "Employee"{
+            cell.tableLabel.text = optionArray[indexPath.row]
+        }else{
+            cell.tableLabel.text = employerOption[indexPath.row]
+        }
+            cell.selectionStyle = .none
         return cell
     }
 ///
@@ -69,20 +84,34 @@ extension ProfileVC: UITableViewDelegate,UITableViewDataSource{
                 let vc = storyboard?.instantiateViewController(withIdentifier: "MyApplicationVC") as! MyApplicationVC
                 self.navigationController?.pushViewController(vc, animated: true)
             }else{
-                let vc = storyboard?.instantiateViewController(withIdentifier: "MyApplicantsVC") as! MyApplicantsVC
+                let vc = storyboard?.instantiateViewController(withIdentifier: "MyJobVC") as! MyJobVC
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            
-        case 5:
-            self.showAlertWithTwoActions(alertTitle:"Sign Out", message: "Do you want to sign out?", action1Title: "Yes", action1Style: .destructive, action2Title: "No") { yes in
-                UserDefaults.standard.removeObject(forKey: "id")
-                UserDefaults.standard.removeObject(forKey: "token")
-                UserDefaults.standard.removeObject(forKey: "type")
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "LandingScreenVC") as! LandingScreenVC
+        case 3:
+            if UserDefaults.standard.value(forKey: "type") as! String == "Employee"{
+                let vc = storyboard?.instantiateViewController(withIdentifier: "FavoriteVC") as! FavoriteVC
                 self.navigationController?.pushViewController(vc, animated: true)
-            } completion2: { no in
-                print("not logged out")
+            }else{
+                self.showAlertWithTwoActions(alertTitle:"Sign Out", message: "Do you want to sign out?", action1Title: "Yes", action1Style: .destructive, action2Title: "No") { yes in
+                    UserDefaults.standard.removeObject(forKey: "userId")
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "type")
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "LandingScreenVC") as! LandingScreenVC
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } completion2: { no in
+                    print("not logged out")
+                }
             }
+        case 4:
+                self.showAlertWithTwoActions(alertTitle:"Sign Out", message: "Do you want to sign out?", action1Title: "Yes", action1Style: .destructive, action2Title: "No") { yes in
+                    UserDefaults.standard.removeObject(forKey: "userId")
+                    UserDefaults.standard.removeObject(forKey: "token")
+                    UserDefaults.standard.removeObject(forKey: "type")
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "LandingScreenVC") as! LandingScreenVC
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } completion2: { no in
+                    print("not logged out")
+                }
         default:
             print("hello")
         }
@@ -112,6 +141,14 @@ extension ProfileVC{
         email.text = profileData.email
         role.text = profileData.type
         contactNo.text = profileData.number
+        if let image = profileData.imageUrl {
+            let url = URL(string: image)
+            if url != nil{
+                self.profileImage.af.setImage(withURL: url!)
+            }else{
+                self.profileImage.image = UIImage(named: "")
+            }
+        }
         
     }
 }

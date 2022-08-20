@@ -12,11 +12,10 @@ class EmployeeHomeVC: UIViewController {
 
     @IBOutlet weak var homeCollection: UICollectionView!
     @IBOutlet weak var homeTable: UITableView!
-    @IBOutlet weak var profileImage: UIImageView!
-    @IBOutlet weak var searchText: UITextField!
   
     var popularJobsArray = [JobDetailModel]()
     var recentJobsArray = [JobDetailModel]()
+
     var userId = ""
     var like = false
     var jobId = ""
@@ -55,17 +54,18 @@ class EmployeeHomeVC: UIViewController {
         }
     }
 
-    
-    @IBAction func onFilterTap(_ sender: UIButton){
-        
-    }
+  //MARK: - IB ACTIONS
     @IBAction func oncollectionLikeTap(_ sender: UIButton){
-        like = true
+        
         jobId = popularJobsArray[sender.tag].id!
         let model = CreateWishlistModel(userId: self.userId, jobId: jobId, status: true)
         ApiManager.shared.createWishlist(model: model) { isSuccess in
             if isSuccess{
-                print("hello")
+                if self.like == true{
+                    self.like = false
+                }else{
+                    self.like = true
+                }
                 self.homeCollection.reloadData()
             }else{
                 self.alert(message: ApiManager.shared.message)
@@ -78,25 +78,35 @@ class EmployeeHomeVC: UIViewController {
         let model = CreateWishlistModel(userId: self.userId, jobId: jobId, status: true)
         ApiManager.shared.createWishlist(model: model) { isSuccess in
             if isSuccess{
-                print("hello")
+                if self.like == true{
+                    self.like = false
+                }else{
+                    self.like = true
+                }
                 self.homeTable.reloadData()
             }else{
                 self.alert(message: ApiManager.shared.message)
             }
         }
     }
-    @IBAction func collectionShowAllTap(_ sender: UIButton){
+    @IBAction func searchTapped(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "SearchVC")  as! SearchVC
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    @IBAction func collectionShowAllTap(_ sender: UIButton){
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ShowAllVC")  as! ShowAllVC
         self.navigationController?.pushViewController(vc, animated: true)
         
     }
     @IBAction func tableShowAllTap(_ sender: UIButton){
-        let vc = storyboard?.instantiateViewController(withIdentifier: "SearchVC")  as! SearchVC
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ShowAllVC")  as! ShowAllVC
         self.navigationController?.pushViewController(vc, animated: true)
         
     }
     @IBAction func onClickProfile(_ sender: UIButton){
-        
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ProfileVC")  as! ProfileVC
+        vc.key = "Employee"
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
 
@@ -110,7 +120,11 @@ extension EmployeeHomeVC: UITableViewDelegate,UITableViewDataSource{
         let cell = homeTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! HomeTableCell
         cell.selectionStyle = .none
         cell.likeBtn.tag = indexPath.row
-        
+        if like == true{
+            cell.likeBtn.setImage(UIImage(named:"likeActive"), for: .normal)
+        }else{
+            cell.likeBtn.setImage(UIImage(named:"likeInactive"), for: .normal)
+        }
         cell.jobName.text = recentJobsArray[indexPath.row].jobName
         cell.salary.text = "$ \(recentJobsArray[indexPath.row].salary ?? 0)"
         cell.jobType.text = recentJobsArray[indexPath.row].imageUrl
@@ -158,6 +172,3 @@ extension EmployeeHomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UIC
 
 
 
-extension EmployerHomeVC{
-   
-}

@@ -1,41 +1,84 @@
 PODS:
+  - ADCountryPicker (2.1.0)
   - Alamofire (5.6.1)
   - AlamofireImage (4.2.0):
     - Alamofire (~> 5.4)
+  - AppAuth (1.5.0):
+    - AppAuth/Core (= 1.5.0)
+    - AppAuth/ExternalUserAgent (= 1.5.0)
+  - AppAuth/Core (1.5.0)
+  - AppAuth/ExternalUserAgent (1.5.0):
+    - AppAuth/Core
   - ARSLineProgress (3.1.1)
   - DropDown (2.3.13)
   - GeometricLoaders (1.1.1)
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - GTMAppAuth (1.3.0):
+    - AppAuth/Core (~> 1.4)
+    - GTMSessionFetcher/Core (~> 1.5)
+  - GTMSessionFetcher/Core (1.7.2)
+  - HSAttachmentPicker (1.2.0)
   - IQKeyboardManagerSwift (6.5.10)
+  - Socket.IO-Client-Swift (15.2.0):
+    - Starscream (~> 3.1)
+  - Starscream (3.1.1)
   - SwiftyJSON (5.0.1)
+  - Toast-Swift (5.0.1)
 
 DEPENDENCIES:
+  - ADCountryPicker
   - Alamofire
   - AlamofireImage
   - ARSLineProgress
   - DropDown
   - GeometricLoaders
+  - GoogleSignIn (~> 5.0)
+  - HSAttachmentPicker
   - IQKeyboardManagerSwift
+  - Socket.IO-Client-Swift (~> 15.2.0)
   - SwiftyJSON
+  - Toast-Swift
 
 SPEC REPOS:
   trunk:
+    - ADCountryPicker
     - Alamofire
     - AlamofireImage
+    - AppAuth
     - ARSLineProgress
     - DropDown
     - GeometricLoaders
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - HSAttachmentPicker
     - IQKeyboardManagerSwift
+    - Socket.IO-Client-Swift
+    - Starscream
     - SwiftyJSON
+    - Toast-Swift
 
 SPEC CHECKSUMS:
+  ADCountryPicker: 502cee76a30ea1c3834eb0df170ce635691655c9
   Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
   AlamofireImage: 34a2d90b0e5fe6a5605f85ae4b7b01e784c60192
+  AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   ARSLineProgress: 7a94aa7d5216109f17aae465b7460ff9f1117634
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   GeometricLoaders: 4fbbeb569cf0ea647c620a9ffb87c9e63812e743
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
+  GTMAppAuth: 4d8f864896f3646f0c33baf38a28362f4c601e15
+  GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
+  HSAttachmentPicker: 17ffd7e0819992a09f9126f51e9450332094de1c
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
+  Socket.IO-Client-Swift: 1e3e3a1f09f3312a167f0d781eb2f383d477357c
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
 
-PODFILE CHECKSUM: d19acd32da29ccd806ad87164b1cebad4be5fa81
+PODFILE CHECKSUM: 737241320f987d19d54eb7aa497a4ceaf3c2673a
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

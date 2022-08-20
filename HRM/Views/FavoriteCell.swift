@@ -9,6 +9,7 @@ import UIKit
 
 class FavoriteCell: UITableViewCell {
 
+    @IBOutlet weak var removeBtn: UIButton!
     @IBOutlet weak var favoriteImage:UIImageView!
     @IBOutlet weak var name:UILabel!
     

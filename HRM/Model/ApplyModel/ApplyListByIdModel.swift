@@ -41,14 +41,11 @@ class ApplyListByIdModel: NSObject{
 class JobData: NSObject {
     
     var company =  CompanyDetails()
-    
-    
     var title:String? = ""
     var location: String? = ""
     var priceFrom: Int? = 0
     var priceTo: Int? = 0
     var workers: Int? = 0
-    //
     var jobType: String? = ""
     var firstName: String? = ""
     var lastName: String? = ""

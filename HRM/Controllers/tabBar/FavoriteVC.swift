@@ -17,7 +17,13 @@ class FavoriteVC: UIViewController {
         favouriteListApi()
     }
     
-
+    @IBAction func onBackTap(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func removeFromWishList(_ sender: UIButton) {
+    
+    }
 }
 
 extension FavoriteVC: UITableViewDelegate,UITableViewDataSource{
@@ -28,6 +34,7 @@ extension FavoriteVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = favoriteTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! FavoriteCell
         cell.selectionStyle = .none
+        cell.removeBtn.tag = indexPath.row
         cell.name.text = favoriteListdata[indexPath.item]?.job?.title
         return cell
     }

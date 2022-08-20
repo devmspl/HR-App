@@ -7,8 +7,9 @@
 
 import UIKit
 import ARSLineProgress
+import UniformTypeIdentifiers
 
-class JobApplyVC: UIViewController {
+class JobApplyVC: UIViewController, UIDocumentPickerDelegate {
 
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
@@ -17,16 +18,28 @@ class JobApplyVC: UIViewController {
     @IBOutlet weak var cvResume: UIButton!
     @IBOutlet weak var countryPick: UIButton!
     
+    var picker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf, .text,.image],asCopy: true)
+//    var picker1 = UIDocumentPickerViewController(forExporting: <#T##[URL]#>)
     var userId = ""
     var jobId = ""
+    var urlPdf = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        picker.delegate = self
         userId = UserDefaults.standard.value(forKey: "userId") as? String ?? ""
     }
+        
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else{return}
+        self.urlPdf = "\(url)"
+        print(url,"newUrl")
     
-    
+    }
     @IBAction func onBackTap(_ sender:UIButton){
         self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func onDocumentUploadTap(_ sender:UIButton){
+        self.present(picker, animated: true)
     }
     @IBAction func onApplynowTap(_ sender:UIButton){
         applyJob()
@@ -43,6 +56,7 @@ extension JobApplyVC{
             ARSLineProgress.hide()
             if isSuccess{
                 self.showAlertWithOneAction(alertTitle: "", message: "Job applied Successfully", action1Title: "Ok") { ok in
+//                    ApiManager.shared.uploadd
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarVC
                     self.navigationController?.pushViewController(vc, animated: true)
                 }

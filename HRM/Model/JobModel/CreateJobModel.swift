@@ -28,7 +28,7 @@ struct CreateJobModel: Encodable{
 
 struct CompanyDat: Encodable{
     var address:String? = ""
-    var email: String? = ""
+    var emailId: String? = ""
     var experience: String? = ""
     var phoneNumber: String? = ""
     var skills: String? = ""
