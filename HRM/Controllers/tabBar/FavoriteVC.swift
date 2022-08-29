@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import ARSLineProgress
 
 class FavoriteVC: UIViewController {
 
     @IBOutlet weak var favoriteTable:UITableView!
     var favoriteListdata = [GetWishlistModel?]()
+    var wishlistId = ""
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,7 +24,7 @@ class FavoriteVC: UIViewController {
     }
     
     @IBAction func removeFromWishList(_ sender: UIButton) {
-    
+        removeFromFavorite()
     }
 }
 
@@ -50,12 +52,28 @@ extension FavoriteVC: UITableViewDelegate,UITableViewDataSource{
 extension FavoriteVC{
     func favouriteListApi(){
         let userId = UserDefaults.standard.value(forKey: "userId") as! String
-        ApiManager.shared.getWishlistApi(userid: userId) { respon, isSuccess in
+        ApiManager.shared.getWishlistApi(userid: userId) { [self] respon, isSuccess in
             if isSuccess{
                 self.favoriteListdata = respon
-                self.favoriteTable.reloadData()
+                if  self.favoriteListdata.count != 0{
+                    for i in 0...self.favoriteListdata.count-1{
+                        self.wishlistId = favoriteListdata[i]?.id ?? ""
+                    }
+                    self.favoriteTable.reloadData()
+                }
             }else{
                 self.alert(message: ApiManager.shared.message)
+            }
+        }
+    }
+    func removeFromFavorite(){
+        ARSLineProgress.show()
+        ApiManager.shared.deleteWishlist(wishlistId: self.wishlistId) {[self] isSuccess in
+            ARSLineProgress.hide()
+            if isSuccess{
+                favouriteListApi()
+            }else{
+                alert(message: ApiManager.shared.message)
             }
         }
     }

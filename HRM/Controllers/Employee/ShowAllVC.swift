@@ -17,6 +17,8 @@ class ShowAllVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mostRecentBtn.isHidden = true
+        mostRelevantBtn.isHidden = true
         allJobs()
     }
     
@@ -39,6 +41,7 @@ extension ShowAllVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = searchTable.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchTableCell
         cell.selectionStyle = .none
+//        cell.likeBtn.isHidden = true
         cell.jobName.text = showAllData[indexPath.row].title
         cell.jobHour.text = showAllData[indexPath.row].jobType
         cell.jobLocation.text = "\(showAllData[indexPath.row].priceTo ?? 0)/m \(showAllData[indexPath.row].location ?? "") \(showAllData[indexPath.row].country ?? "")"

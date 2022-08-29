@@ -46,6 +46,7 @@ extension MyApplicantsVC: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "ApplicantsDetailVC") as! ApplicantsDetailVC
         vc.applyId = applicantsData[indexPath.row].id ?? ""
+        vc.userId = applicantsData[indexPath.row].applyBy?.userId ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

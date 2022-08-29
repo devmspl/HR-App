@@ -44,7 +44,7 @@ class JobAndCompanyDetailModel: NSObject {
         country = data["country"].stringValue
         scopeOfWork = data["scopeOfWork"].stringValue
         planOfAction = data["planOfAction"].stringValue
-        contructionDocumentation = data["contructionDocumentation"].stringValue
+        contructionDocumentation = data["constructionDocumentation"].stringValue
         id = data["_id"].stringValue
         company = CompanyDetails(data["company"])
         user = User(data["user"])

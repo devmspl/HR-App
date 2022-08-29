@@ -93,7 +93,42 @@ class ApiManager: UIViewController {
             completion(NSDictionary(),false)
         }
         }
-    //MARK: - socialLogin
+//MARK: - DELETE USER
+    func deleteUser(userid: String,token: String,completion: @escaping(Bool)->()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            let header: HTTPHeaders = ["x-access-token":token]
+            AF.request(ApiUrls.deleteUser+userid,method: .delete,headers: header).response{
+                response in
+                switch (response.result){
+                case .success(let data):do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let respond = json as! NSDictionary
+                    print(respond)
+                    if response.response?.statusCode == 200{
+                       
+                        print("deleted")
+                        completion(true)
+                    }else{
+                        self.message = respond.object(forKey: "error") as! String
+                        print("error occured")
+                        completion(false)
+                    }
+                    
+                }catch{
+                    print(error.localizedDescription)
+                    completion(false)
+                }
+                case .failure(let error): do{
+                    completion(false)
+                }
+                }
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion(false)
+        }
+    }
+//MARK: - socialLogin
     func socialLogin(model: SocialLogin,completion: @escaping(Bool,NSDictionary?)->()){
         if ReachabilityNetwork.isConnectedToNetwork(){
             print("URL: - \(ApiUrls.socialLogin)")
@@ -328,7 +363,7 @@ class ApiManager: UIViewController {
     
     
 //MARK: - create job api
-        func createJob(model: CreateJobModel,completion: @escaping(Bool)->()){
+        func createJob(model: CreateJobModel,completion: @escaping(Bool,String)->()){
             if ReachabilityNetwork.isConnectedToNetwork(){
                 print("URL: - \(ApiUrls.jobCreate)")
                 AF.request(ApiUrls.jobCreate,method: .post,parameters: model,encoder: JSONParameterEncoder.default).response{
@@ -340,25 +375,27 @@ class ApiManager: UIViewController {
                         print("respond",respond)
                         if response.response?.statusCode == 200{
                             print("Job successfully created")
-                            completion(true)
+                            let data = respond.object(forKey: "data") as! NSDictionary
+                            let id = data.object(forKey: "_id") as! String
+                            completion(true,id)
                         }else{
                             self.message = respond.object(forKey: "error") as! String
                             print(self.message)
-                            completion(false)
+                            completion(false,"")
                         }
                     }catch{
                         print(error.localizedDescription)
-                        completion(false)
+                        completion(false,"")
                     }
                     case .failure(let error): do{
                         print(error.localizedDescription)
-                        completion(false)
+                        completion(false,"")
                     }
                     }
                 }
             }else{
                 self.message = "Please check internet connection"
-                completion(false)
+                completion(false,"")
             }
         }
 //MARK: -
@@ -706,7 +743,7 @@ class ApiManager: UIViewController {
     }
 
 //MARK: -  apply job api
-    func jobApplyApi(model: JobApplyModel,completion: @escaping(Bool)->()){
+    func jobApplyApi(model: JobApplyModel,completion: @escaping(Bool,String)->()){
         if ReachabilityNetwork.isConnectedToNetwork(){
             print("Url:- \(ApiUrls.jobApply)")
             AF.request(ApiUrls.jobApply,method: .post,parameters: model,encoder: JSONParameterEncoder.default).response{
@@ -717,27 +754,72 @@ class ApiManager: UIViewController {
                     let respond = json as! NSDictionary
                     print(respond)
                     if response.response?.statusCode == 200{
-                        completion(true)
+                        let data = respond.object(forKey: "data") as! NSDictionary
+                        let id = data.object(forKey: "_id") as! String
+                        completion(true,id)
                     }else{
                         self.message = respond.object(forKey: "error") as! String
-                        completion(false)
+                        completion(false,"")
                     }
                 }catch{
                     print(error.localizedDescription)
-                    completion(false)
+                    completion(false,"")
                 }
                 case .failure(let error):do{
                     print(error.localizedDescription)
-                    completion(false)
+                    completion(false,"")
                 }
                 }
             }
         }else{
             self.message = "Please check internet connection"
-            completion(false)
+            completion(false,"")
         }
         
     }
+//MARK: - universal doc upload api
+    func uploadfile(apiURL: String,dataObj: URL,strfilename: String,progressCompletion: @escaping (_ percent: Float) -> Void,
+
+                        completion: @escaping (_ result: [String: Any]?, _ error: AFError?) -> Void) {
+           AF.upload(
+                   multipartFormData: { multipartFormData in
+//                       for (key,value) in parms{
+//
+//                           if let temp = value as? String{
+//
+//                               multipartFormData.append(temp.data(using: .utf8)!, withName: key)
+//
+//                           }
+//                       }
+                     multipartFormData.append(dataObj,
+                                              withName: "file",
+                                              fileName: strfilename,
+                                              mimeType: "application/pdf")
+                   },
+                   to: apiURL, usingThreshold: UInt64.init(), method: .put)
+                   .uploadProgress { progress in
+                        progressCompletion(Float(progress.fractionCompleted))
+                   }
+                   .responseJSON { response in
+                       switch response.result{
+                       case .success(let json): do {
+                               print("success===",json)
+                               let statusCode = response.response?.statusCode
+                               if(statusCode == 201)
+                               {
+                                   let response = json as! [String: Any]
+                                   completion(response,nil)
+                                   print(response)
+                               }else{
+                                   print("error")
+                               }
+                           }
+                       case.failure(let error):
+                           print(error)
+                           completion(nil,error)
+                       }
+                   }
+               }
     
 //MARK: - apply/list by userid
     func applyListByUserId(id: String,completion: @escaping ([ApplyListByIdModel?],Bool)-> ()){
@@ -985,6 +1067,37 @@ class ApiManager: UIViewController {
         }else{
             self.message = "Please check internet connection"
             completion([],false)
+        }
+    }
+//MARK: - delete wishlist api
+    func deleteWishlist(wishlistId: String,completion: @escaping(Bool)->()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            AF.request(ApiUrls.deleteWishlist+wishlistId,method: .delete).response{
+                response in
+                switch (response.result){
+                case .success(let data): do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                    let success = response.response?.statusCode
+                    let respond = json as! NSDictionary
+                    if success == 200{
+                        completion(true)
+                    }else{
+                        self.message = respond.object(forKey: "error") as! String
+                        completion(false)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion(false)
+                }
+                case .failure(let error):do{
+                    print(error.localizedDescription)
+                    completion(false)
+                }
+                }
+            }
+        }else{
+            self.message = "Please check internet connection"
+            completion(false)
         }
     }
 //MARK: - getCategories

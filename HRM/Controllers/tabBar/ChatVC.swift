@@ -7,14 +7,19 @@
 
 import UIKit
 import SocketIO
+import AlamofireImage
+
 class ChatVC: UIViewController {
   
     @IBOutlet weak var textMessage: UITextField!
     @IBOutlet weak var chatTable: UITableView!
+    @IBOutlet weak var nameUser: UILabel!
+    @IBOutlet weak var imageUser: UIImageView!
 //MARK: - usernames
     var senderUser = ""
     var receiptantUser = ""
     var roomId = ""
+    var imageUsers = ""
 //MARK: - msgArrays
     var arraymsgFrom = [AnyObject]()
     var arraymsgTo = [AnyObject]()
@@ -38,6 +43,7 @@ class ChatVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         socket.connect()
+        setData()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -47,6 +53,18 @@ class ChatVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         socket.disconnect()
     }
+    
+    func setData(){
+        nameUser.text = receiptantUser
+        let url = URL(string: imageUsers)
+        print(imageUsers,"sdvds")
+        if url != nil{
+            self.imageUser.af.setImage(withURL: url!)
+        }else{
+            self.imageUser.image = UIImage(named: "user")
+        }
+    }
+    
     @IBAction func onBacktap(_ sender: UIButton){
         self.navigationController?.popViewController(animated: true)
     }
@@ -69,12 +87,10 @@ class ChatVC: UIViewController {
 
 extension ChatVC:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.arraymsg.count > 0
-        {
+        if self.arraymsg.count > 0 {
             return self.arraymsg.count
         }
-        else
-        {
+        else{
             return 0
         }
     }
@@ -93,7 +109,7 @@ cell.selectionStyle = .none
        if self.arraymsgFrom[indexPath.row] as! String != senderUser{
         let cell = chatTable.dequeueReusableCell(withIdentifier: "cell2") as! ChatReceiveCell
         cell.selectionStyle = .none
-           cell.msgText.text = self.arraymsg[indexPath.row] as? String
+        cell.msgText.text = self.arraymsg[indexPath.row] as? String
         return cell
       }
 return cell
@@ -125,7 +141,7 @@ extension ChatVC{
         }
             socket.on("chat-msg"){ data, ack in
                 print("sdsadc",data)
-                self.arraymsg.removeAll()
+//                self.arraymsg.removeAll()
                 for i in 0...data.count-1{
                     if let dic = data[i] as? [String:AnyObject]{
                                
@@ -139,7 +155,7 @@ extension ChatVC{
                        self.arraymsgTo.append(msgTo as AnyObject)
                        self.arraymsg.append(msg as AnyObject)
                        self.arraydate.append(dateFromMessage as AnyObject)
-                        self.textMessage.text = ""
+                       self.textMessage.text = ""
                        
                        self.chatTable.reloadData()
                        self.scrollToBottom()

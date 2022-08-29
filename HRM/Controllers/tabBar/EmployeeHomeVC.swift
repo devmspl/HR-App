@@ -7,12 +7,14 @@
 
 import UIKit
 import ARSLineProgress
+import AlamofireImage
 
 class EmployeeHomeVC: UIViewController {
 
     @IBOutlet weak var homeCollection: UICollectionView!
     @IBOutlet weak var homeTable: UITableView!
-  
+    @IBOutlet weak var imagePro: UIImageView!
+    
     var popularJobsArray = [JobDetailModel]()
     var recentJobsArray = [JobDetailModel]()
 
@@ -46,6 +48,7 @@ class EmployeeHomeVC: UIViewController {
         ApiManager.shared.recentJobs {[self]  response, isSuccess in
             ARSLineProgress.hide()
             if isSuccess{
+                getUser()
                 recentJobsArray.append(contentsOf: response)
                 homeTable.reloadData()
             }else{
@@ -56,7 +59,7 @@ class EmployeeHomeVC: UIViewController {
 
   //MARK: - IB ACTIONS
     @IBAction func oncollectionLikeTap(_ sender: UIButton){
-        
+        self.like = false
         jobId = popularJobsArray[sender.tag].id!
         let model = CreateWishlistModel(userId: self.userId, jobId: jobId, status: true)
         ApiManager.shared.createWishlist(model: model) { isSuccess in
@@ -73,11 +76,12 @@ class EmployeeHomeVC: UIViewController {
         }
     }
     @IBAction func ontableLikeTap(_ sender: UIButton){
-        like = true
+        like = false
         jobId = recentJobsArray[sender.tag].id!
         let model = CreateWishlistModel(userId: self.userId, jobId: jobId, status: true)
         ApiManager.shared.createWishlist(model: model) { isSuccess in
             if isSuccess{
+                
                 if self.like == true{
                     self.like = false
                 }else{
@@ -172,3 +176,18 @@ extension EmployeeHomeVC:UICollectionViewDelegate,UICollectionViewDataSource,UIC
 
 
 
+extension EmployeeHomeVC{
+    func getUser(){
+        let user = UserDefaults.standard.object(forKey: "userId") as! String
+        ApiManager.shared.getProfile(userId: user) { data, isSuccess in
+            if isSuccess{
+                if let image = data?.imageUrl as? String{
+                    let url = URL(string: image)
+                    if url != nil{
+                        self.imagePro.af.setImage(withURL: url!)
+                    }
+                }
+            }
+        }
+    }
+}

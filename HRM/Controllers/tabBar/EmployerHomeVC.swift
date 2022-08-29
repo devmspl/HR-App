@@ -21,6 +21,8 @@ class EmployerHomeVC: UIViewController {
     @IBOutlet weak var workerbtn: UIButton!
     @IBOutlet var roundViews: [UIView]!
     @IBOutlet weak var workerCount: UILabel!
+    @IBOutlet weak var imagePro: UIImageView!
+    
     
     let drop = DropDown()
     var categoryArray = [GetCategoryModel]()
@@ -118,12 +120,26 @@ extension EmployerHomeVC{
     func getcategory(){
         ApiManager.shared.getAllCategories {[self] data, issuccess in
             if issuccess{
+                getUser()
                 self.categoryArray = data
                 for i in 0...categoryArray.count-1{
                     self.cateArray.append(categoryArray[i].category ?? "")
                 }
             }else{
                 self.alert(message: ApiManager.shared.message)
+            }
+        }
+    }
+    func getUser(){
+        let user = UserDefaults.standard.object(forKey: "userId") as! String
+        ApiManager.shared.getProfile(userId: user) { data, isSuccess in
+            if isSuccess{
+                if let image = data?.imageUrl as? String{
+                    let url = URL(string: image)
+                    if url != nil{
+                        self.imagePro.af.setImage(withURL: url!)
+                    }
+                }
             }
         }
     }

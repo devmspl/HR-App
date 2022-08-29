@@ -7,6 +7,7 @@
 
 import UIKit
 import ARSLineProgress
+import SocketIO
 
 class JobDescriptionVC: UIViewController {
 ///
@@ -48,6 +49,11 @@ class JobDescriptionVC: UIViewController {
     }
     
     @IBAction func onMessageTap(_ sender: Any) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ChatVC") as! ChatVC
+        vc.receiptantUser = jobDetails?.user.userName ?? ""
+        vc.imageUsers = "http://34.231.88.85/Human/humanresource_node_backend/assets/images/\(jobDetails?.user.image ?? "")"
+        socket.connect()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func onBackTap(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -56,6 +62,10 @@ class JobDescriptionVC: UIViewController {
         let vc = storyboard?.instantiateViewController(withIdentifier: "JobApplyVC") as! JobApplyVC
         vc.jobId = self.jobId
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    @IBAction func onShowDocumentTap(_ sender: Any) {
+        let url = "http://34.231.88.85/Human/humanresource_node_backend/assets/files/\(jobDetails?.contructionDocumentation ?? "")"
+        UIApplication.shared.open(URL(string: url)!)
     }
     @IBAction func onCompanyDescription(_ sender: Any) {
         jobDescriptionView.isHidden = true

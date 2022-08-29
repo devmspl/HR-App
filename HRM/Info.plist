@@ -94,5 +94,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow access to  use Camera for profile image update</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please allow access to  use Photo gallery for profile image update</string>
 </dict>
 </plist>

@@ -13,7 +13,7 @@ class EmployeeSignUpVC: UIViewController {
     @IBOutlet weak var email: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        password.isSecureTextEntry = true
         // Do any additional setup after loading the view.
     }
     
@@ -40,6 +40,11 @@ class EmployeeSignUpVC: UIViewController {
         
     }
     @IBAction func onShowPassword(_ sender: Any) {
+        if password.isSecureTextEntry == true{
+            password.isSecureTextEntry = false
+        }else{
+            password.isSecureTextEntry = true
+        }
     }
 
 }

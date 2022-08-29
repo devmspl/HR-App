@@ -21,6 +21,7 @@ public struct ApiUrls {
     public static var updateUser                  = BaseUrl + "users/update/"
     public static var uploadprofileImage          = BaseUrl + "users/uploadImage"
     public static var getAllUsers                 = BaseUrl + "users/getAllUsers"
+    public static var deleteUser                  = BaseUrl + "users/delete/"
     
     
 //MARK: -  jobApi
@@ -45,6 +46,7 @@ public struct ApiUrls {
 //MARK: - wishlist
     public static var createWishlist              = BaseUrl + "wishlist/create"
     public static var getWishlist                 = BaseUrl + "wishlist/wishlistByUserId/"
+    public static var deleteWishlist              = BaseUrl + "wishlist/delete/"
 
 //MARK: - category
     public static var getAllCategory              = BaseUrl + "category/getAllCategory"
@@ -59,4 +61,8 @@ public struct ApiUrls {
 //MARK: - chat api
     public static var oldChat                     = BaseUrl + "messages/getOldChat?room_id="
     
+//MARK: - documentUpload api
+    
+    public static var applyJobDoc                 = BaseUrl + "apply/uploadDocs/"
+    public static var constructionDoc             = BaseUrl + "jobs/uploadDocs/"
 }

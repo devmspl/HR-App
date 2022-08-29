@@ -25,7 +25,7 @@ class TabBarVC: UITabBarController {
         let vc = storyboard.instantiateViewController(withIdentifier: "EmployeeHomeVC") as! EmployeeHomeVC
         let vc1 = storyboard.instantiateViewController(withIdentifier: "EmployerHomeVC") as! EmployerHomeVC
         
-        if UserDefaults.standard.value(forKey: "type") as! String == "Employee"{
+        if UserDefaults.standard.value(forKey: "type") as! String == "employee"{
             self.viewControllers?[0] = vc
 //         
         }else{

@@ -9,9 +9,8 @@ import UIKit
 import ADCountryPicker
 import Toast_Swift
 
-class EnterJobDescriptionVC: UIViewController,ADCountryPickerDelegate{
-    
-    
+
+class EnterJobDescriptionVC: UIViewController,ADCountryPickerDelegate,UIDocumentPickerDelegate{
     
     @IBOutlet weak var docname: UILabel!
     @IBOutlet weak var planOfAction: UITextField!
@@ -22,7 +21,9 @@ class EnterJobDescriptionVC: UIViewController,ADCountryPickerDelegate{
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var email: UITextField!
     @IBOutlet var roundViews: [UIView]!
+   //////////
     let picker = ADCountryPicker()
+    let docPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf, .text,.image],asCopy: true)
     
     //MARK: - data from back screen
     ///
@@ -34,18 +35,21 @@ class EnterJobDescriptionVC: UIViewController,ADCountryPickerDelegate{
     var priceTo = ""
     var workers = ""
     var jobType = ""
+    var urlPdf = ""
+    var filename = ""
     ///
-    //MARK: - viewDidLoad
+//MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        docPicker.delegate = self
         for i in 0...roundViews.count-1{
             roundViews[i].layer.cornerRadius = 10
         }
     }
-    
-    
-    //MARK: - buttonActions
+
+//MARK: - buttonActions
     @IBAction func uploadDocTapped(_ sender: Any) {
+        self.present(docPicker, animated: true)
     }
     @IBAction func selectCountry(_ sender: Any) {
         let pickerNavigationController = UINavigationController(rootViewController: picker)
@@ -81,12 +85,23 @@ class EnterJobDescriptionVC: UIViewController,ADCountryPickerDelegate{
             vc.plansOfAction = planOfAction.text ?? ""
             vc.scopeOfWork = scopeOfWork.text ?? ""
             vc.constructionDoc = ""
+            vc.filename = filename
+            vc.pdfUrl = urlPdf
+            print(urlPdf,"asdfghjk")
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     //////////////////
     func countryPicker(_ picker: ADCountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String) {
         print(dialCode)
+    }
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else{return}
+        print("\(url)"+"asdfgyuikl,kjhgfdfgh")
+        self.urlPdf = "\(url)"
+        self.filename = url.lastPathComponent
+        docname.text = self.filename
+        print(url,"newUrl")
     }
     ////////////////////////
     

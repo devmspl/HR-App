@@ -21,9 +21,9 @@ class LoginVC: UIViewController,GIDSignInDelegate, ASAuthorizationControllerDele
     var firstname = ""
     var avatar = ""
     var emailTex = ""
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        password.isSecureTextEntry = true
         GIDSignIn.sharedInstance().delegate = self
         // Do any additional setup after loading the view.
     }
@@ -60,7 +60,7 @@ class LoginVC: UIViewController,GIDSignInDelegate, ASAuthorizationControllerDele
         self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func onCreateAccount(_ sender: Any) {
-        if UserDefaults.standard.value(forKey: "type") as! String == "Employee"{
+        if UserDefaults.standard.value(forKey: "type") as! String == "employee"{
             let vc = storyboard?.instantiateViewController(withIdentifier: "EmployeeSignUpVC") as! EmployeeSignUpVC
             self.navigationController?.pushViewController(vc, animated: true)
         }else{
@@ -70,6 +70,11 @@ class LoginVC: UIViewController,GIDSignInDelegate, ASAuthorizationControllerDele
      
     }
     @IBAction func onShowPassword(_ sender: Any) {
+        if password.isSecureTextEntry == true{
+            password.isSecureTextEntry = false
+        }else{
+            password.isSecureTextEntry = true
+        }
     }
     
 }

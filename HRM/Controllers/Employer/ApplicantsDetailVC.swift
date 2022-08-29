@@ -8,7 +8,6 @@
 import UIKit
 
 class ApplicantsDetailVC: UIViewController {
-
     
     @IBOutlet weak var applicantName: UILabel!
     @IBOutlet weak var email: UILabel!
@@ -22,6 +21,7 @@ class ApplicantsDetailVC: UIViewController {
     @IBOutlet weak var cvResumeBtn: UIButton!
     
     var applyId = ""
+    var userId = ""
     var applicantData = ApplicantModel()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,9 @@ class ApplicantsDetailVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     @IBAction func onViewCVTap(_ sender: UIButton){
-        
+        let url = "http://34.231.88.85/Human/humanresource_node_backend/assets/files/\(applicantData.resume ?? "")"
+        print(url,"svcasdc")
+        UIApplication.shared.open(URL(string: url)!)
     }
     
 }
@@ -40,8 +42,7 @@ class ApplicantsDetailVC: UIViewController {
 
 extension ApplicantsDetailVC{
     func applicantDetailApi(){
-        let userId = UserDefaults.standard.value(forKey: "userId") as! String
-        ApiManager.shared.getAppliedUserDetails(userId: userId, applyid: self.applyId) { data, isSuccess in
+        ApiManager.shared.getAppliedUserDetails(userId: self.userId, applyid: self.applyId) { data, isSuccess in
             if isSuccess{
                 self.applicantData = data!
                 self.setData()
@@ -52,8 +53,9 @@ extension ApplicantsDetailVC{
     }
     func setData(){
         self.applicantName.text = "\(applicantData.firstName ?? "") \(applicantData.lastName ?? "")"
-        let initials = applicantName.text!.components(separatedBy: " ").reduce("") { ($0 == "" ? "" : "\($0.first!)") + "\($1.first!)" }
-        self.shrtName.text = initials.uppercased()
+//        let initials = applicantName.text!.components(separatedBy: " ").reduce("") { ($0 == "" ? "" : "\($0.first!)") + "M" }
+        let str = applicantName.text!.first?.description.uppercased()
+        self.shrtName.text = str!
         self.email.text = applicantData.applyBy?.email
         self.position.text = applicantData.job?.title
         self.jobType.text = applicantData.job?.jobType 

@@ -16,7 +16,7 @@ class EmployerSignUpVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        password.isSecureTextEntry = true
    
     }
     
@@ -26,6 +26,11 @@ class EmployerSignUpVC: UIViewController {
     }
   
     @IBAction func showPassword(_ sender: Any) {
+        if password.isSecureTextEntry == true{
+            password.isSecureTextEntry = false
+        }else{
+            password.isSecureTextEntry = true
+        }
     }
     @IBAction func onAppleTap(_ sender: Any) {
     }
