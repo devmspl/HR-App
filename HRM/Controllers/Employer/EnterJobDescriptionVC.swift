@@ -42,6 +42,7 @@ class EnterJobDescriptionVC: UIViewController,ADCountryPickerDelegate,UIDocument
     override func viewDidLoad() {
         super.viewDidLoad()
         docPicker.delegate = self
+        view.overrideUserInterfaceStyle = .light
         for i in 0...roundViews.count-1{
             roundViews[i].layer.cornerRadius = 10
         }

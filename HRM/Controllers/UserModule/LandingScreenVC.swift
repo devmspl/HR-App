@@ -11,7 +11,7 @@ class LandingScreenVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.overrideUserInterfaceStyle = .light
     }
     
     @IBAction func onStartTap(_ sender: Any) {

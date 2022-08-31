@@ -17,6 +17,7 @@ class MyApplicationVC: UIViewController,UIDocumentPickerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         getApplications()
+        view.overrideUserInterfaceStyle = .light
         picker.delegate = self
     }
     

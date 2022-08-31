@@ -23,6 +23,7 @@ class LoginVC: UIViewController,GIDSignInDelegate, ASAuthorizationControllerDele
     var emailTex = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.overrideUserInterfaceStyle = .light
         password.isSecureTextEntry = true
         GIDSignIn.sharedInstance().delegate = self
         // Do any additional setup after loading the view.

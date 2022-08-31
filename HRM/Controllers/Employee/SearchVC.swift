@@ -7,14 +7,19 @@
 
 import UIKit
 
-class SearchVC: UIViewController {
+class SearchVC: UIViewController,UITextFieldDelegate {
 
+    @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchJobTable: UITableView!
     var searchData = [JobData]()
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        searchTextField.delegate = self
+        view.overrideUserInterfaceStyle = .light
+        searchView.layer.cornerRadius = 20
+        searchView.layer.borderColor = UIColor.white.cgColor
+        searchView.layer.borderWidth = 1
         
     }
     @IBAction func onFilterTap(_ sender: Any) {
@@ -29,6 +34,19 @@ class SearchVC: UIViewController {
     @IBAction func onBackTap(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        ApiManager.shared.jobSearchApi(text: searchTextField.text!+string) { data, isSuccess in
+            if isSuccess{
+                self.searchData = data
+                self.searchJobTable.reloadData()
+            }
+            else{
+                self.alert(message: ApiManager.shared.message)
+            }
+        }
+        return true
+    }
 }
 
 extension SearchVC: UITableViewDelegate,UITableViewDataSource{
@@ -38,7 +56,7 @@ extension SearchVC: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = searchJobTable.dequeueReusableCell(withIdentifier: "cell") as! SearchTableCell
-        cell.likeBtn.tag = indexPath.row
+//        cell.likeBtn.tag = indexPath.row
         cell.jobName.text = searchData[indexPath.row].title
         cell.jobHour.text = searchData[indexPath.row].jobType
         cell.jobLocation.text = "\(searchData[indexPath.row].priceTo ?? 0)/m \(searchData[indexPath.row].country ?? "")"

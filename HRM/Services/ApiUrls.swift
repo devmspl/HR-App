@@ -17,6 +17,7 @@ public struct ApiUrls {
     public static var forgetPassword              = BaseUrl + "users/forgotPassword"
     public static var otp                         = BaseUrl + "users/otpVerifyAndChangePassword"
     public static var resetPassword               = BaseUrl + "users/newPassword"
+    public static var changePassword              = BaseUrl + "users/changePassword/"
     public static var getProfile                  = BaseUrl + "users/currentUser/"
     public static var updateUser                  = BaseUrl + "users/update/"
     public static var uploadprofileImage          = BaseUrl + "users/uploadImage"

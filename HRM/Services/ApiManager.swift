@@ -287,6 +287,47 @@ class ApiManager: UIViewController {
         }
         }
     
+//MARK: - changePassword
+    func changePassword(userid: String,token: String,newPassword: String,oldPassword: String,completion: @escaping (NSDictionary,Bool) -> ()){
+        if ReachabilityNetwork.isConnectedToNetwork(){
+            
+            let head: HTTPHeaders = ["x-access-token": token]
+            print("Url:- \(ApiUrls.resetPassword)","Token: - \(token)")
+            let param : [String:Any] = ["oldPassword":oldPassword,"newPassword": newPassword]
+            
+            AF.request(ApiUrls.resetPassword,method: .put,parameters: param,encoding:JSONEncoding.default,headers: head).response{ [self]
+                response in
+                switch(response.result){
+                    
+                case .success(let data):do{
+                    let json = try JSONSerialization.jsonObject(with: data!, options:[])
+                    let statusCode = response.response?.statusCode
+                    let respond = json as! NSDictionary
+                    if statusCode == 200{
+                        print(respond)
+                        message = respond.object(forKey: "message") as! String
+                        completion(respond,true)
+                    }else{
+                        print(respond)
+                        message = respond.object(forKey: "error") as! String
+                        completion(NSDictionary(),false)
+                    }
+                }catch{
+                    print(error.localizedDescription)
+                    completion(NSDictionary(),false)
+                }
+                case .failure(let error):do{
+                    print(error.localizedDescription)
+                    completion(NSDictionary(),false)
+                }
+                }
+            }
+        }else{
+            
+            completion(NSDictionary(),false)
+        }
+        }
+    
  //MARK: - get userprofile
     func getProfile(userId: String,completion: @escaping(GetProfileModel?,Bool)->()){
         if ReachabilityNetwork.isConnectedToNetwork(){

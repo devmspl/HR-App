@@ -15,6 +15,7 @@ class FavoriteVC: UIViewController {
     var wishlistId = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.overrideUserInterfaceStyle = .light
 
         favouriteListApi()
     }

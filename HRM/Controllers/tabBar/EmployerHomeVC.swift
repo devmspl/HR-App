@@ -32,6 +32,8 @@ class EmployerHomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         placeHolders()
+        view.overrideUserInterfaceStyle = .light
+
         for i in 0...roundViews.count-1{
             roundViews[i].layer.cornerRadius = 20
         }

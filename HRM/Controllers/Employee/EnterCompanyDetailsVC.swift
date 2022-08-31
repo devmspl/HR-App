@@ -39,6 +39,7 @@ class EnterCompanyDetailsVC: UIViewController {
 //MARK: - VIEWDID LOAD
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.overrideUserInterfaceStyle = .light
         print(pdfUrl,"ssdhjabvjhsdba")
         for i in 0...roundViews.count-1{
             roundViews[i].layer.cornerRadius = 10

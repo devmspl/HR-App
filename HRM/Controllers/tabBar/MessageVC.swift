@@ -17,6 +17,7 @@ class MessageVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getusers()
+        view.overrideUserInterfaceStyle = .light
         senderUser = UserDefaults.standard.value(forKey: "username") as! String
     }
    

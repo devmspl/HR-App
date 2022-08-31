@@ -26,6 +26,7 @@ class ApplicantsDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         applicantDetailApi()
+        view.overrideUserInterfaceStyle = .light
     }
     
     @IBAction func onBackTap(_ sender: UIButton){

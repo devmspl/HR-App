@@ -11,7 +11,7 @@ class EmployerFirstVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.overrideUserInterfaceStyle = .light
         // Do any additional setup after loading the view.
     }
     

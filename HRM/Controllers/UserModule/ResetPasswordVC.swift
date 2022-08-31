@@ -13,6 +13,7 @@ class ResetPasswordVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.overrideUserInterfaceStyle = .light
     }
     
     @IBAction func resetPasswordTapped(_ sender: Any) {

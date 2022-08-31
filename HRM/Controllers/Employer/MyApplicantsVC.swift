@@ -18,7 +18,7 @@ class MyApplicantsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         jobApplicants()
-
+        view.overrideUserInterfaceStyle = .light
     }
 //MARK: - ACTION
     @IBAction func onBackTap(_ sender: UIButton){

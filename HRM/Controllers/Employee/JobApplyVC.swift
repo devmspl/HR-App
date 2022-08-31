@@ -30,6 +30,7 @@ class JobApplyVC: UIViewController, UIDocumentPickerDelegate,ADCountryPickerDele
     var fileName = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.overrideUserInterfaceStyle = .light
         picker.delegate = self
         userId = UserDefaults.standard.value(forKey: "userId") as? String ?? ""
     }

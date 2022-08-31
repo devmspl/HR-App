@@ -14,6 +14,7 @@ class TabBarVC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpHome()
+        view.overrideUserInterfaceStyle = .light
         self.tabBar.items![1].isEnabled = false
 //        setupMiddleButton()
     }

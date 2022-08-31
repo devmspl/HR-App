@@ -33,7 +33,7 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
+        view.overrideUserInterfaceStyle = .light
     }
     override func viewWillAppear(_ animated: Bool) {
         getProfile()

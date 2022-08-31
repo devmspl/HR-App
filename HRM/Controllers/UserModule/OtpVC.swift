@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OtpVC: UIViewController {
+class OtpVC: UIViewController,UITextFieldDelegate {
 
     @IBOutlet weak var text1: UITextField!
     @IBOutlet weak var text2: UITextField!
@@ -16,8 +16,11 @@ class OtpVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-   
+        text1.delegate = self
+        text2.delegate = self
+        text3.delegate = self
+        text4.delegate = self
+        view.overrideUserInterfaceStyle = .light
     }
     
    
@@ -25,6 +28,52 @@ class OtpVC: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     @IBAction func resendTapped(_ sender: Any) {
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == text1{
+            text1.text = ""
+        }else if textField == text2{
+            text2.text = ""
+        }else if textField == text3{
+            text3.text = ""
+        }else{
+            text4.text = ""
+        }
+        
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == text1{
+            if text1.text!.count > 0{
+//                text1.resignFirstResponder()
+                text2.becomeFirstResponder()
+            }else{
+                text1.becomeFirstResponder()
+            }
+        }else if textField == text2{
+            if text2.text!.count > 0{
+//                text2.resignFirstResponder()
+                text3.becomeFirstResponder()
+            }else{
+                text2.becomeFirstResponder()
+            }
+        }else if textField == text3{
+            if text3.text!.count > 0{
+//                text3.resignFirstResponder()
+                text4.becomeFirstResponder()
+            }else{
+                text3.becomeFirstResponder()
+            }
+        }else {
+            if text4.text!.count > 0{
+                text4.resignFirstResponder()
+                text1.resignFirstResponder()
+                text2.resignFirstResponder()
+                text3.resignFirstResponder()
+            }else{
+                text4.becomeFirstResponder()
+            }
+        }
+        return true
     }
     @IBAction func nextTapped(_ sender: Any) {
         

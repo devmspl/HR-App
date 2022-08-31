@@ -16,6 +16,7 @@ class EmployerSignUpVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.overrideUserInterfaceStyle = .light
         password.isSecureTextEntry = true
    
     }

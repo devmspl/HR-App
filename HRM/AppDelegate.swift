@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        if #available(iOS 13.0, *) {
+                  UIWindow.appearance().overrideUserInterfaceStyle = .light
+              }
         GIDSignIn.sharedInstance().clientID = "89280541576-r1oen2k4v1s0q45e9m0g3dqp3cqf3evo.apps.googleusercontent.com"
        
         IQKeyboardManager.shared.enable = true

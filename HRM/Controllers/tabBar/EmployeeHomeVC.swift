@@ -24,6 +24,7 @@ class EmployeeHomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
             getPopularJob()
+        view.overrideUserInterfaceStyle = .light
         userId = UserDefaults.standard.value(forKey: "userId") as! String
         like = false
     }

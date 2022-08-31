@@ -35,7 +35,7 @@ class JobDescriptionVC: UIViewController {
 ///
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.overrideUserInterfaceStyle = .light
         mainview.backgroundColor = UIColor.clear
         companyDescription.bounds = mainview.bounds
         getApiData()

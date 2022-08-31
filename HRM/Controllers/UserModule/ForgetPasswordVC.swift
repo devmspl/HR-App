@@ -12,7 +12,7 @@ class ForgetPasswordVC: UIViewController {
     @IBOutlet weak var email: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.overrideUserInterfaceStyle = .light
         // Do any additional setup after loading the view.
     }
     

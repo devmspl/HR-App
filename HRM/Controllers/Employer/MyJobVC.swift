@@ -15,6 +15,7 @@ class MyJobVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getMyJobs()
+        view.overrideUserInterfaceStyle = .light
     }
     @IBAction func onBackTap(_ sender: UIButton){
         self.navigationController?.popViewController(animated: true)

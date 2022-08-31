@@ -17,6 +17,7 @@ class ShowAllVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.overrideUserInterfaceStyle = .light
         mostRecentBtn.isHidden = true
         mostRelevantBtn.isHidden = true
         allJobs()

@@ -21,6 +21,7 @@ class EditProfileVC: BaseClass {
     override func viewDidLoad() {
         super.viewDidLoad()
         getdata()
+        view.overrideUserInterfaceStyle = .light
         email.isUserInteractionEnabled = false
          
     }

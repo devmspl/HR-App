@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -36,6 +36,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow access to  use Camera for profile image update</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please allow access to  use Photo gallery for profile image update</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SFPRODISPLAYBLACKITALIC.OTF</string>
@@ -82,8 +86,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -94,9 +96,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSCameraUsageDescription</key>
-	<string>Please allow access to  use Camera for profile image update</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please allow access to  use Photo gallery for profile image update</string>
 </dict>
 </plist>
